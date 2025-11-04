@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\\u9879\u76EE\\Project game 1\\",
+  "WorkspaceRootPath": "D:\\\u4EE3\u7801\\Project game 1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{718D8B0C-7CB9-4DD6-993C-051E726DE726}|Project game 1\\Project game 1.vcxproj|D:\\\u9879\u76EE\\Project game 1\\Project game 1\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{718D8B0C-7CB9-4DD6-993C-051E726DE726}|Project game 1\\Project game 1.vcxproj|D:\\\u4EE3\u7801\\Project game 1\\Project game 1\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{718D8B0C-7CB9-4DD6-993C-051E726DE726}|Project game 1\\Project game 1.vcxproj|solutionrelative:Project game 1\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,14 +20,18 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "\u6E90.c",
-              "DocumentMoniker": "D:\\\u9879\u76EE\\Project game 1\\Project game 1\\\u6E90.c",
+              "DocumentMoniker": "D:\\\u4EE3\u7801\\Project game 1\\Project game 1\\\u6E90.c",
               "RelativeDocumentMoniker": "Project game 1\\\u6E90.c",
-              "ToolTip": "D:\\\u9879\u76EE\\Project game 1\\Project game 1\\\u6E90.c",
+              "ToolTip": "D:\\\u4EE3\u7801\\Project game 1\\Project game 1\\\u6E90.c",
               "RelativeToolTip": "Project game 1\\\u6E90.c",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-11-03T09:09:04.974Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
               "$type": "Bookmark",
