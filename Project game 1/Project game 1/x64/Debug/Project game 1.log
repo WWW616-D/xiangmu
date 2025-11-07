@@ -1,0 +1,28 @@
+﻿  源.cpp
+D:\代码\Project game 1\Project game 1\源.cpp(9,2): error C2665: “settextstyle”: 没有重载函数可以转换所有参数类型
+      D:\CC\VC\Auxiliary\VS\include\easyx.h(249,6):
+      可能是“void settextstyle(int,int,LPCTSTR)”
+          D:\代码\Project game 1\Project game 1\源.cpp(9,2):
+          “void settextstyle(int,int,LPCTSTR)”: 无法将参数 3 从“const char [5]”转换为“LPCTSTR”
+              D:\代码\Project game 1\Project game 1\源.cpp(9,22):
+              指向的类型不相关; 转换需要 reinterpret_cast、C 样式强制转换或带圆括号的函数样式强制转换
+      D:\代码\Project game 1\Project game 1\源.cpp(9,2):
+      尝试匹配参数列表“(int, int, const char [5])”时
+  
+D:\代码\Project game 1\Project game 1\源.cpp(10,2): error C2665: “outtextxy”: 没有重载函数可以转换所有参数类型
+      D:\CC\VC\Auxiliary\VS\include\easyx.h(226,6):
+      可能是“void outtextxy(int,int,TCHAR)”
+          D:\代码\Project game 1\Project game 1\源.cpp(10,2):
+          “void outtextxy(int,int,TCHAR)”: 无法将参数 3 从“const char [15]”转换为“TCHAR”
+              D:\代码\Project game 1\Project game 1\源.cpp(10,22):
+              没有使该转换得以执行的上下文
+      D:\CC\VC\Auxiliary\VS\include\easyx.h(225,6):
+      或    “void outtextxy(int,int,LPCTSTR)”
+          D:\代码\Project game 1\Project game 1\源.cpp(10,2):
+          “void outtextxy(int,int,LPCTSTR)”: 无法将参数 3 从“const char [15]”转换为“LPCTSTR”
+              D:\代码\Project game 1\Project game 1\源.cpp(10,22):
+              指向的类型不相关; 转换需要 reinterpret_cast、C 样式强制转换或带圆括号的函数样式强制转换
+      D:\代码\Project game 1\Project game 1\源.cpp(10,2):
+      尝试匹配参数列表“(int, int, const char [15])”时
+  
+D:\代码\Project game 1\Project game 1\源.cpp(11,2): error C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
