@@ -124,13 +124,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ds.c" />
+    <ClCompile Include="一些算法.c" />
     <ClCompile Include="上课.c" />
+    <ClCompile Include="二数和与三数和.c" />
     <ClCompile Include="作业.c" />
+    <ClCompile Include="堆.c" />
     <ClCompile Include="尸体.c" />
-    <ClCompile Include="数据结构.c" />
+    <ClCompile Include="异构词的整合.c" />
     <ClCompile Include="测试.c" />
+    <ClCompile Include="相似字符串对的三个办法.c" />
     <ClCompile Include="练习.c" />
     <ClCompile Include="源.c" />
+    <ClCompile Include="链表和哈希.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

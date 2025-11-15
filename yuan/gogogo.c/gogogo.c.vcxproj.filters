@@ -36,7 +36,22 @@
     <ClCompile Include="ds.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="数据结构.c">
+    <ClCompile Include="堆.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="链表和哈希.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="一些算法.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="异构词的整合.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="二数和与三数和.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="相似字符串对的三个办法.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

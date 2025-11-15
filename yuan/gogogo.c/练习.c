@@ -17,300 +17,38 @@ void jia(int x, int y);
 void jian(int x, int y);
 void cheng(int x, int y);
 void chu(int x, int y);
-int searchch(int* data, int num,int len);
-                           //哈希表的二数和应用
-typedef struct hashnode
+int searchch(int* data, int num,int len);                         
+//最长无重复字母串
+int lengthOfLongestSubstring(char* s)
 {
-	int key;
-	int value;
-	struct hashnode* next;
-}hashnode;
-typedef struct hashmap
-{
-	hashnode** buckets;
-	int size;
-}hashmap;
-hashmap* creathashmap(int size)
-{
-	hashmap* map = (hashmap*)malloc(sizeof(hashmap));
-	map->size = size;
-	map->buckets = (hashnode**)calloc(size, sizeof(hashnode*));
-	return map;
-}
-int hash(int key, int size)
-{
-	return abs(key) % size;
-}
-void put(hashmap* map, int key, int value)
-{
-	int index = hash(key, map->size);
-	hashnode* newnode = (hashnode*)malloc(sizeof(hashnode));
-	newnode->key = key;
-	newnode->value = value;
-	newnode->next = map->buckets[index];
-	map->buckets[index] = newnode;
-}
-int get(hashmap* map, int key)
-{
-	int index = hash(key, map->size);
-	hashnode* p = map->buckets[index];
-	while (p != NULL)
+	char* a = (char*)calloc(100, sizeof(char));
+	int i = 0;
+	int p = 0;
+	int max = 0;
+	while (s[i] != '\0')
 	{
-		if (p->key == key)
+		a[s[i] - 32]++;
+		if (a[s[i] - 32] > 1)
 		{
-			return p->value;
-		}
-		else
-		{
-			p = p->next;
-		}
-	}
-	return -1;
-}
-void freehashmap(hashmap* map)
-{
-	for (int i = 0; i < map->size; i++)
-	{
-		hashnode* p = map->buckets[i];
-		while (p != NULL)
-		{
-			hashnode* temp = p;
-			p = p->next;
-			free(temp);
-		}
-	}
-	free(map->buckets);
-	free(map);
-}
-int* twoSum(int* nums, int numsSize, int target, int* returnSize)
-{
-	*returnSize = 2;
-	int* result = (int*)malloc(2 * sizeof(int));
-	int size = 20;
-	hashmap* map = creathashmap(numsSize);
-	for (int i = 0; i < numsSize; i++)
-	{
-		int a = target - nums[i];
-		int aindex = get(map, a);
-		if (aindex != -1)
-		{
-			result[0] = i;
-			result[1] = aindex;
-			freehashmap(map);
-			return result;
-		}
-		put(map, nums[i], i);
-	}
-	freehashmap(map);
-	return NULL;
-}
-                         //
-int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes)
-{
-	if (numsSize < 3) {
-		*returnColumnSizes = NULL;
-		return NULL;
-	}
-	int truesize = 1;
-	*returnSize = 100000;
-	int count = 0;
-	int** threesum = (int**)calloc(100000, sizeof(int*));
-	int* data = (int*)malloc(100000 * 3 * sizeof(int));
-	for (int i = 0; i < *returnSize; i++)
-	{
-		threesum[i] = data + i * 3;
-	}
-	for (int i = numsSize - 1; i > 0; i--)
-	{
-		for (int j = 0; j < i; j++)
-		{
-			if (nums[j] > nums[j + 1])
+			while (p <= i && s[p] != s[i])
 			{
-				int temp = 0;
-				temp = nums[j];
-				nums[j] = nums[j + 1];
-				nums[j + 1] = temp;
+				a[s[p] - 32]--;
+				p++;
 			}
+			a[s[p] - 32]--;
+			p++;
 		}
-	}
-	for (int i = 0; i < numsSize - 2; i++)
-	{
-		if (i > 0 && nums[i] == nums[i - 1])
+		if (i - p + 1 > max)
 		{
-			continue;
+			max = i - p + 1;
 		}
-
-		int nuu = nums[i];
-		int num = nums[i] * -1;
-		int* left = nums + i + 1;
-		int* right = nums + numsSize - 1;
-		while (left < right)
-		{
-			if (*left + *right == num)
-			{
-				threesum[truesize][0] = nuu;
-				threesum[truesize][1] = *left;
-				threesum[truesize][2] = *right;
-				truesize += 1;
-				while (left < right && *left == *(left + 1))
-				{
-					left++;
-				}
-				while (left < right && *right == *(right - 1))
-				{
-					right--;
-				}
-				left++;
-				right--;
-
-
-			}
-			else if (*left + *right < num)
-			{
-				left++;
-			}
-			else if (*left + *right > num)
-			{
-				right--;
-			}
-		}
+		i++;
 	}
-	int d = 0;
-	int a;
-	int b;
-	int c;
-	for (int i = 0; i < truesize - 1 - d; i++) {
-		for (int j = i + 1; j < truesize - d; j++) {
-			if (threesum[i][0] == threesum[j][0] &&
-				threesum[i][1] == threesum[j][1] &&
-				threesum[i][2] == threesum[j][2]) {
-				for (int k = j; k < truesize - 1 - d; k++) {
-					threesum[k][0] = threesum[k + 1][0];
-					threesum[k][1] = threesum[k + 1][1];
-					threesum[k][2] = threesum[k + 1][2];
-				}
-
-				j--;
-				d++;
-			}
-		}
-	}
-	*returnSize = truesize - d;
-	*returnColumnSizes = (int*)malloc((truesize - d) * sizeof(int));
-	for (int i = 0; i < (truesize - d); i++)
-	{
-		(*returnColumnSizes)[i] = 3;
-	}
-	return threesum;
+	return max;
 }
+                           
  
 
-//int similarPairs(char** words, int wordsSize)
-//{
-//	int count = 0;
-//	int num = 0;
-//	char a[wordsSize][27];
-//	int len = 0;
-//	int flag = 1;
-//	int b[wordsSize];
-//	for (int i = 0; i < wordsSize; i++)
-//	{
-//		b[i] = 0;
-//		memset(a[i], 0, 27);
-//	}
-//	for (int i = 0; i < wordsSize; i++)
-//	{
-//		count = 0;
-//		len = strlen(words[i]);
-//		for (int j = 0; j < len; j++)
-//		{
-//			flag = 1;
-//			for (int k = 0; k < b[i]; k++)
-//			{
-//				if (a[i][k] == words[i][j])
-//				{
-//					flag = 0;
-//				}
-//			}
-//			if (flag)
-//			{
-//				a[i][count] = words[i][j];
-//				b[i]++;
-//				count++;
-//			}
-//		}
-//		a[i][b[i]] = '\0';
-//	}
-//	int abc;
-//	for (int i = 0; i < wordsSize; i++)
-//	{
-//		for (int j = 0; j < b[i] - 1; j++)
-//		{
-//			for (int k = 0; k < b[i] - j - 1; k++)
-//			{
-//				if (a[i][k] > a[i][k + 1])
-//				{
-//					char temp = a[i][k];
-//					a[i][k] = a[i][k + 1];
-//					a[i][k + 1] = temp;
-//				}
-//			}
-//		}
-//	}
-//	for (int i = 0; i < wordsSize; i++)
-//	{
-//		for (int j = i + 1; j < wordsSize; j++)
-//		{
-//			if (strcmp(a[i], a[j]) == 0)
-//			{
-//				num++;
-//			}
-//		}
-//	}
-//	return num;
-//}
-
-//版本二
-
-//int similarPairs(char** words, int wordsSize)
-//{
-//	int num = 0;
-//	char sortedSets[wordsSize][27];  // 存储每个字符串排序后的字符集合
-//
-//	for (int i = 0; i < wordsSize; i++) {
-//		// 标记字符出现
-//		int charExists[26] = { 0 };
-//		int len = strlen(words[i]);
-//
-//		// 标记出现的字符
-//		for (int j = 0; j < len; j++) {
-//			if (words[i][j] >= 'a' && words[i][j] <= 'z') {
-//				charExists[words[i][j] - 'a'] = 1;
-//			}
-//		}
-//
-//		// 构建排序后的字符集合
-//		int pos = 0;
-//		for (int j = 0; j < 26; j++) {
-//			if (charExists[j]) {
-//				sortedSets[i][pos++] = 'a' + j;
-//			}
-//		}
-//		sortedSets[i][pos] = '\0';  // 字符串结束符
-//	}
-//
-//	// 比较所有字符串对
-//	for (int i = 0; i < wordsSize; i++) {
-//		for (int j = i + 1; j < wordsSize; j++) {
-//			if (strcmp(sortedSets[i], sortedSets[j]) == 0) {
-//				num++;
-//			}
-//		}
-//	}
-//
-//	return num;
-//}
- 
 
 //int* getSneakyNumbers(int* nums, int numsSize, int* returnSize)
 //{
@@ -346,77 +84,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 //}
  
 
-//int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-//	*returnSize = 2;
-//	int count = 0;
-//	int* a = (int*)calloc(2, sizeof(int));
-//	int* b = (int*)calloc(2, sizeof(int));
-//	int nums1[numsSize];
-//	for (int i = 0; i < numsSize; i++)
-//	{
-//		nums1[i] = nums[i];
-//	}
-//
-//	for (int i = numsSize - 1; i > 0; i--)
-//	{
-//		count == 0;
-//		for (int j = 0; j < i; j++)
-//		{
-//			if (nums1[j] > nums1[j + 1])
-//			{
-//				int temp = 0;
-//				temp = nums1[j];
-//				nums1[j] = nums1[j + 1];
-//				nums1[j + 1] = temp;
-//				count++;
-//			}
-//		}
-//		if (count == 0)
-//		{
-//			break;
-//		}
-//	}
-//	int left = 0;
-//	int right = numsSize - 1;
-//	int flag = 1;
-//	while (left < right)
-//	{
-//		if (nums1[left] + nums1[right] == target)
-//		{
-//			a[0] = nums1[left];
-//			a[1] = nums1[right];
-//			flag = 0;
-//			break;
-//		}
-//		if (nums1[left] + nums1[right] < target)
-//		{
-//			left++;
-//		}
-//		if (nums1[left] + nums1[right] > target)
-//		{
-//			right--;
-//		}
-//	}
-//	if (flag)
-//	{
-//		return NULL;
-//	}
-//	for (int i = 0; i < numsSize; i++)
-//	{
-//		if (nums[i] == a[0])
-//		{
-//			b[0] = i;
-//		}
-//	}
-//	for (int i = 0; i < numsSize; i++)
-//	{
-//		if (nums[i] == a[1] && b[0] != i)
-//		{
-//			b[1] = i;
-//		}
-//	}
-//	return b;
-//}
+
 //void founding(double* arr, int len, int num, int numdelete)
 //{
 //	int left = 0;
@@ -467,6 +135,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 //	}
 //	*(arr + numi) = num;
 //}
+
 //double* medianSlidingWindow(int* nums, int numsSize, int k, int* returnSize)
 //{
 //	int flag = 0;

@@ -2,8 +2,9 @@
 #include<stdlib.h>
 #include<time.h>
 #include<string.h>
+#include<math.h>
 //static:保存函数中变量到程序结束
-void swap(void* p1, void* p2, int len)
+void swap1(void* p1, void* p2, int len)
 {
 	char* pc1 = p1;
 	char* pc2 = p2;
@@ -17,6 +18,13 @@ void swap(void* p1, void* p2, int len)
 		pc2++;
 	}
 }
+void swap(int* p1,int*p2)
+{
+	int temp = *p1;
+	*p1 = *p2;
+	*p2 = temp;
+}
+
 void change(int* p1, int* p2)
 {
 	int temp = 0;
@@ -161,7 +169,7 @@ void chu(int x, int y)
 //strlen(str)   求字符串长度(无休止符)
 //strcat(str,str)拼接(第一个字符串要可以修改)
 //strcpy(str,str)拷贝(后者覆盖前者同上)
-//strcmp(str,str)比较(一样出1不一样出0)
+//strcmp(str,str)比较(一样出0不一样出1)
 //strupr(str)改成大写struwr(str)改成小写
 //void* memset(void* ptr, int value, size_t num);初始化一个内存
 typedef struct
@@ -180,9 +188,6 @@ typedef struct yuanshen
 
 int main_aslkw()
 {
-	
-	
-	
 	/*
 	%d 整型
 	%u 无符号整型
@@ -227,7 +232,6 @@ int main_aslkw()
 	// 输出单斜杠\\
 	//水平制表符\t:8格自填空对齐(大于8变16)
 	*/
-
 	//char m = 'A';
 	//键盘录入：scanf
 	/*int lj;
@@ -455,27 +459,7 @@ int main_aslkw()
 //pf(a[0][1], a[0][2]);
 //main_56();
 
-                //掩码与位运算
-//int similarPairs(char** words, int wordsSize) {
-//	int num = 0;
-//	int masks[wordsSize];  // 用整数位掩码表示字符集合
-//
-//	for (int i = 0; i < wordsSize; i++) {
-//		masks[i] = 0;
-//		for (int j = 0; words[i][j]; j++) {
-//			masks[i] |= (1 << (words[i][j] - 'a'));
-//		}
-//	}
-//
-//	for (int i = 0; i < wordsSize; i++) {
-//		for (int j = i + 1; j < wordsSize; j++) {
-//			if (masks[i] == masks[j]) {
-//				num++;
-//			}
-//		}
-//	}
-//	return num;
-//}
+               
 						// 结构体
 //XT xing = { "星",100,1000,10000 };
 // YS zhongli;
