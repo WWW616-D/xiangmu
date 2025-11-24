@@ -141,7 +141,7 @@ int quickselect(int* a,int left,int right,int k)
 	}
 	return -1;
 }
-int main()
+int main_564488()
 {
 	/*int a = read();
 	write(a);

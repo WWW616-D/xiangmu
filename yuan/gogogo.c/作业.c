@@ -2,73 +2,73 @@
 #include<math.h>
 void prinm(int a[], int len);
 void prinw(int a[], int len);
-void exe1()
-{
-	int x;
-	int y;
-	float z;
-	printf("请输入x和y\n");
-	scanf("%d %d", &x, &y);
-	if (x > 0 && y > 0)
-	{
-		z = log(x) + log(y);
-	}
-	if (x > 0 && y < 0)
-	{
-		z = sin(x) + sin(y);
-	}
-	if (x < 0 && y > 0)
-	{
-		z = exp(2x) + exp(3x);
-	}
-	if (x < 0 && y < 0)
-	{
-		z = tan(x + y);
-	}
-	printf("%f", z);
-}
-void exe2()
-{
-	int x;
-	int y;
-	printf("请输入两个整数\n");
-	scanf("%d %d", &x, &y);
-	int count;
-	printf("1 做加法\n2 做减法\n3 做乘法\n4 做除法");
-	scanf("%d", &count);
-	switch (count)
-	{
-		case 1:printf("%d", x + y);
-			break;
-		case 2:printf("%d", x - y);
-			break;
-		case 3:printf("%d", x * y);
-			break;
-		case 4: 
-			if (y == 0)
-			{
-				printf("除数为0");
-			}
-			else
-				printf("%d", x / y);
-			break;
-	}
-}
-void exe3()
-{
-	for (int i=1;i<9;i++)
-	{
-		for (int k=1;k<i;k++)
-		{
-			printf("\t");
-		}
-		for (int j=i;j<9;j++)
-		{
-			printf("%d * %d = %d\t", i, j, i * j);
-		}
-		printf("\n");
-	}
-}
+//void exe1()
+//{
+//	int x;
+//	int y;
+//	float z;
+//	printf("请输入x和y\n");
+//	scanf("%d %d", &x, &y);
+//	if (x > 0 && y > 0)
+//	{
+//		z = log(x) + log(y);
+//	}
+//	if (x > 0 && y < 0)
+//	{
+//		z = sin(x) + sin(y);
+//	}
+//	if (x < 0 && y > 0)
+//	{
+//		z = exp(2*x) + exp(3*x);
+//	}
+//	if (x < 0 && y < 0)
+//	{
+//		z = tan(x + y);
+//	}
+//	printf("%f", z);
+//}
+//void exe2()
+//{
+//	int x;
+//	int y;
+//	printf("请输入两个整数\n");
+//	scanf("%d %d", &x, &y);
+//	int count;
+//	printf("1 做加法\n2 做减法\n3 做乘法\n4 做除法");
+//	scanf("%d", &count);
+//	switch (count)
+//	{
+//		case 1:printf("%d", x + y);
+//			break;
+//		case 2:printf("%d", x - y);
+//			break;
+//		case 3:printf("%d", x * y);
+//			break;
+//		case 4: 
+//			if (y == 0)
+//			{
+//				printf("除数为0");
+//			}
+//			else
+//				printf("%d", x / y);
+//			break;
+//	}
+//}
+//void exe3()
+//{
+//	for (int i=1;i<9;i++)
+//	{
+//		for (int k=1;k<i;k++)
+//		{
+//			printf("\t");
+//		}
+//		for (int j=i;j<9;j++)
+//		{
+//			printf("%d * %d = %d\t", i, j, i * j);
+//		}
+//		printf("\n");
+//	}
+//}
 int main_32145()
 {
 	/*int a;

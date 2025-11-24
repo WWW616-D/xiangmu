@@ -164,13 +164,19 @@ void chu(int x, int y)
 // calloc(size_t,size)//分配内存，初始化为0
 //realloc(*p size_t*size)改变之前分配的内存返回新的地址
 //strncpy(word start len)将start地址开始长度为len的字符串复制到word
-
+//int compare(const void* a,const void* b)
+//{
+//	const int* inta = (const int*)a;
+//	const int* intb = (const int*)b;
+//	return *inta - *intb;
+//}
+//qsort(nums,len,sizeof,compare)
 //字符串相关的库函数
 //strlen(str)   求字符串长度(无休止符)
 //strcat(str,str)拼接(第一个字符串要可以修改)
 //strcpy(str,str)拷贝(后者覆盖前者同上)
 //strcmp(str,str)比较(一样出0不一样出1)
-//strupr(str)改成大写struwr(str)改成小写
+//strlpr(str)改成大写strlwr(str)改成小写
 //void* memset(void* ptr, int value, size_t num);初始化一个内存
 typedef struct
 {

@@ -603,20 +603,6 @@ int main_asdawd()
 	/*char a = 68;
 	char b = 127;
 	printf("%d", a+b);*/
-	int a[40];
-	srand(time[NULL]);
-	float f;
-	int h;
-	for (int i=0;i<40;i++)
-	{
-		a[i] = rand() % 100 + 1;
-		h += a[i];
-	}
-	f = float(h) / 40;
-	for (int i=0;i<40;i++)
-	{
-		printf("第%d个学生成绩与平均分%f的差距为%f分\n", i, f, a[i] - f);
-	}
 	return 0;
 	
 }
