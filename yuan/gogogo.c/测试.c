@@ -60,7 +60,7 @@ int* findAnagrams(char* s, char* p, int* returnSize)
     }
     return result;
 }
-int main()
+int main_23155()
 {
    /* char a[5];
     char b[3];
