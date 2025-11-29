@@ -4,6 +4,7 @@
 #include <time.h>
 #include <string.h>
 #include <conio.h>
+#include <locale.h>
 typedef struct book
 {
 	int id;

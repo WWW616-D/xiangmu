@@ -17,6 +17,7 @@ account* getAccounts(FILE* file)
 		}
 		back(name, newnode->name);
 		back(password, newnode->password);
+		printf("解析后的字符串是%s\n%s\n", newnode->name, newnode->password);
 		if (head==NULL)
 		{
 			head = newnode; 
@@ -45,6 +46,7 @@ void login()
 		file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "r");
 	}
 	account* p = getAccounts(file);
+	account* head = p;
 	char name[40];
 	char password[40];
 	a:
@@ -62,7 +64,6 @@ void login()
 	}
 	if (p==NULL||strcmp(p->password,password)!=0)
 	{
-		printf("你的密码为%s\n", p->password);
 		printf("用户名或密码错误!请重新输入!\n");
 		count++;
 		if (count==5)
@@ -73,6 +74,13 @@ void login()
 		goto a;
 	}
 	printf("\t\t\t\thello! %s\n", name);
+	while (head != NULL)
+	{
+		account* temp = head;
+		head = head->next;
+		free(temp);
+	}
+	fclose(file);
 }
 void password(char* pwd, int len)
 {
@@ -99,9 +107,10 @@ void password(char* pwd, int len)
 		}
 	}
 }
-void change(char* str,int length,char* out)
+void change(char* str, char* out)
 {
-	for (int i =0; i < length;i++)
+	int length = strlen(str);
+	for (int i = 0; i < length; i++)
 	{
 		char byte = str[i];
 		out[i * 2] = Xtable[byte >> 4];
@@ -144,11 +153,11 @@ void CreateNewAccount()
 	FILE* file;
 	if (choice == 1)
 	{
-		file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "r+");
+		file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "r");
 	}
 	else
 	{
-		file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "r+");
+		file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "r");
 	}
 	a:
 	printf("请输入你的用户名;(8到16个字符)\n");
@@ -156,6 +165,7 @@ void CreateNewAccount()
 	printf("请输入你的密码;(8到16个字符)\n");
 	password(new_account->password, sizeof(new_account->password));
 	account* p = getAccounts(file);
+	account* head = p;
 	while (p!=NULL)
 	{
 		if (strcmp(p->name,new_account->name)==0)
@@ -165,6 +175,12 @@ void CreateNewAccount()
 		}
 		p = p->next;
 	}
+	while (head != NULL)
+	{
+		account* temp = head;
+		head = head->next;
+		free(temp);
+	}
 	if (strlen(new_account->password)>16||strlen(new_account->name) > 16||strlen(new_account->password) < 8 || strlen(new_account->name) < 8)
 	{
 		printf("您的用户名或密码不符合限定长度  请重新输入\n");
@@ -173,8 +189,16 @@ void CreateNewAccount()
 	printf("%s", new_account->name);
 	char name[80];
 	char password[80];
-	change(new_account->name,strlen(new_account->name),name);
-	change(new_account->password,strlen(new_account->password),password);
-	fprintf(file, "%s,%s\n", name,password);
+	change(new_account->name,name);
+	change(new_account->password,password);
 	fclose(file);
+	FILE* write_file;
+	if (choice == 1) {
+		write_file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "a");
+	}
+	else {
+		write_file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "a");
+	}
+	fprintf(write_file,"%s,%s\n",name,password);
+	fclose(write_file);
 }
