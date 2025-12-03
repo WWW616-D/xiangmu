@@ -6,6 +6,9 @@ typedef struct treenode
 	int num;
 	struct treenode* left;
 	struct treenode* right;
+	int count;
+	int flag;
+	int height;
 }treenode;
 treenode* creattreenode(int num)
 {
@@ -13,6 +16,8 @@ treenode* creattreenode(int num)
 	newnode->num = num;
 	newnode->left = NULL;
 	newnode->right = NULL;
+	newnode->count = 1;
+	newnode->flag = 1;
 	return newnode;
 }
 void beforeorder(treenode* p)
@@ -50,15 +55,20 @@ void insert(treenode* root,int num)
 		if (p == NULL)
 			break;
 		q = p;
-		if (num <= p->num)
+		if (num < p->num)
 		{
 			p = p->left;
 			flag = 1;
 		}
-		else 
+		else if (num > p->num)
 		{
 			p = p->right;
 			flag = 2;
+		}
+		else
+		{
+			p->count++;
+			break;
 		}
 	} 
 	if (flag)
@@ -99,7 +109,75 @@ int treeheight(treenode* root)
 		return 0;
 	int leftheight = treeheight(root->left);
 	int rightheight = treeheight(root->right);
-	return(leftheight > rightheight ? leftheight : rightheight) + 1;
+	return(leftheight > rightheight ? leftheight : rightheight) + 1; 
+}
+int getheight(treenode* root)
+{
+	if (root == NULL)
+		return 0;
+	else
+	{
+		return root->height;
+	}
+}
+treenode* findmin(treenode* root)
+{
+	while(root->left!=NULL)
+	{
+		root = root->left;
+	}
+	return root;
+}
+treenode* delete(treenode* root,int num)
+{
+	if (root==NULL)
+	{
+		printf("这个数字并不存在");
+		return root;
+	}
+	else
+	{
+		if(num<root->num)
+		{
+			root->left = delete(root->left, num);
+		}
+		else if(num>root->num)
+		{
+			root->right = delete(root->right, num);
+		}
+		else
+		{
+			if(root->left==NULL)
+			{
+				treenode* temp = root->right;
+				free(root);
+				return temp;
+			}
+			else if(root->right==NULL)
+			{
+				treenode* temp = root->left;
+				free(root);
+				return temp;
+			}
+			else
+			{
+				treenode* min = findmin(root->right);
+				root->num = min->num;
+				root->right = delete(root->right, min->num);
+			}
+		}
+	}
+	return root;
+}
+void freetree(treenode* root)
+{
+	if (root!=NULL)
+	{
+		freetree(root->left);
+		freetree(root->right);
+		free(root);
+	}
+	return;
 }
 int main()
 {

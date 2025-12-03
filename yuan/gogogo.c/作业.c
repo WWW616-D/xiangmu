@@ -69,6 +69,59 @@ void prinw(int a[], int len);
 //		printf("\n");
 //	}
 //}
+//int getnum(int num)
+//{
+//	int sum = 1;
+//	for (int i=2;i*i<=num;i++)
+//	{
+//		if (num%i==0)
+//		{
+//			if (i * i != num)
+//				sum += i + num / i;
+//			else
+//				sum += i;
+//		}		
+//	}
+//	return sum;
+//}
+//void exe()
+//{
+//	for (int i =2;i<1000;i++)
+//	{
+//		int sum = getnum(i);
+//		if (2<sum&&sum<1000&&sum!=i)
+//		{
+//			int sum1 = getnum(sum);
+//			if (sum1==i)
+//			{
+//				printf("我们找到了一个亲密数对%d,%d\n", i, sum);
+//			}
+//		}
+//	}
+//}
+//void exe()
+//{
+//	int a = 0;
+//	int b = 1;
+//	printf("%d %d ", a, b);
+//	for (int i=3;i<=100;i++)
+//	{
+//		if (i&1)
+//		{
+//			int temp = a + b;
+//			printf("%d ", temp);
+//			a = b;
+//			b = temp;
+//		}
+//		else
+//		{
+//			int temp = a - b;
+//			printf("%d ", temp);
+//			a = b;
+//			b = temp;
+//		}
+//	}
+//}
 int main_32145()
 {
 	/*int a;

@@ -1,7 +1,7 @@
-#define hashsize 1007
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+//#define hashsize 1007
+//#include<stdio.h>
+//#include<stdlib.h>
+//#include<string.h>
 //void quicksortstr(char* key, int left, int right)
 //{
 //	if (left >= right)

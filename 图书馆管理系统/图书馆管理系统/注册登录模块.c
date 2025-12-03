@@ -150,14 +150,36 @@ void CreateNewAccount()
 		printf("新账户创建失败,请重试\n");
 		return;
 	}
-	FILE* file;
+	FILE* file = NULL;
+	FILE* getfile = NULL;
+	char rightcode[16];
 	if (choice == 1)
 	{
 		file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "r");
 	}
 	else
 	{
+		getfile = fopen("D:\\代码\\图书馆管理系统\\激活码.txt","r");
 		file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "r");
+		fscanf(getfile, "%15s\n",rightcode);
+		rightcode[15] = '\0';
+		for (int i = 0;i<15;i++)
+		{
+			rightcode[i] = 'A' + (rightcode[i]-'A'+i+1) % 26;
+			printf("%c\n", rightcode[i]);
+		}
+		char code[16];
+		b:
+		printf("请输入激活码:\n");
+		scanf_s("%s", code, 15);
+		if (strcmp(code, rightcode)==0)
+		{
+			printf("激活码正确:");
+		}
+		else
+		{
+			goto b;
+		}
 	}
 	a:
 	printf("请输入你的用户名;(8到16个字符)\n");
@@ -192,13 +214,21 @@ void CreateNewAccount()
 	change(new_account->name,name);
 	change(new_account->password,password);
 	fclose(file);
+	if (getfile!=NULL)
+	{
+		fclose(getfile);
+	}
 	FILE* write_file;
 	if (choice == 1) {
 		write_file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "a");
 	}
-	else {
+	else 
+	{
+		getfile = fopen("D:\\代码\\图书馆管理系统\\激活码.txt","w");
 		write_file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "a");
+		fprintf(getfile,"%s",rightcode);
 	}
 	fprintf(write_file,"%s,%s\n",name,password);
 	fclose(write_file);
+	fclose(getfile);
 }
