@@ -12,7 +12,13 @@ int main()
 	}
 	else
 	{
-		CreateNewAccount();
+		printf("请选择你要创建的账户类型:\n1:读者账户\n2:管理员账户(需要激活码)\n");
+		scanf("%d", &choice);
+		if (choice == 1)
+			CreateNewAccount();
+		else
+			CreateNewMainAccount();
+		system("cls");
 		goto a;
 	}
 }

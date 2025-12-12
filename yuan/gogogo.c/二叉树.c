@@ -179,7 +179,7 @@
 //	}
 //	return;
 //}
-int main()
+int main_1563()
 {
 	//treenode* root = creattreenode(5);
 	//srand(time(NULL));

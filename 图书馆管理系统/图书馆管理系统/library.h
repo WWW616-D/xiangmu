@@ -15,11 +15,23 @@ typedef struct book
 }book;
 typedef struct account
 {
+	int id;
 	char name[40];
 	char password[40];
+	char book[5][6];
+	char maxbook;
+	char getbook;
 	struct account* next;
 }account;
+typedef struct mainaccount
+{
+	char name[40];
+	char password[40];
+	struct mainaccount* next;
+}mainaccount;
 void CreateNewAccount();
+void CreateNewMainAccount();
+mainaccount* getMainAccounts(FILE* file);
 account* getAccounts(FILE* file);
 void login();
 void change(char* str, int length, char* out);

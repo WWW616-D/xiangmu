@@ -13,16 +13,14 @@ typedef struct HashList
 {
 	int num;
 	int* data;
+	char* current;
 }hash;
 hash* initlist()
 {
 	hash* list = (hash*)malloc(sizeof(hash));
 	list->num = 0;
-	list->data = (int*)malloc(sizeof(int) * NUM);
-	for (int i = 0; i < NUM; i++)
-	{
-		list->data[i] = 0;
-	}
+	list->data = (int*)calloc(NUM,sizeof(int));
+	list->current = (char*)calloc(NUM, sizeof(char));
 	return list;
 }
 int gethash(int data)
@@ -32,17 +30,26 @@ int gethash(int data)
 void put(hash* list, int data)
 {
 	int index = gethash(data);
-	if (list->data[index] != 0)
+	int start = index;
+	if (list->current[index] > 0)
 	{
-		int count = 1;
-		while (list->data[index] != 0)
+		int count = 1;//这是一个典型的开放寻址法，需要注意
+                      //采用另一个哈希函数作为步长可能是更好的选择
+					  //以及当碰撞次数过多的时候可以考虑再扩散为一个两倍的哈希表		
+		while (list->current[index] > 0)
 		{
-			printf("你好");
-			index = gethash(gethash(data) + count);
+			index = gethash(index + count);
 			count++;
+			if (index==start)
+			{
+				printf("这个哈希表满了\n");
+				return;
+			}
+
 		}
 	}
 	list->data[index] = data;
+	list->current[index] = 1;
 }
 int main_1124()
 {

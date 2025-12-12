@@ -1,35 +1,6 @@
 #include"library.h"
 const char Xtable[] = "0123456789ABCDEF";
-account* getAccounts(FILE* file)
-{
-	account* head = NULL;
-	char name[80];
-	char password[80];
-	char line[256];
-	while (fgets(line,sizeof(line),file))
-	{
-		account* newnode = (account*)malloc(sizeof(account));
-		newnode->next = NULL;
-		if (sscanf(line,"%79[^,],%s\n",newnode->name,password) != 2)
-		{
-			free(newnode);
-			break;
-		}
-		//back(name, newnode->name);
-		back(password, newnode->password);
-		//printf("解析后的字符串是%s\n%s\n", newnode->name, newnode->password);
-		if (head==NULL)
-		{
-			head = newnode; 
-		}
-		else
-		{
-			newnode->next = head;
-			head = newnode;
-		}
-	}
-	return head;
-}
+
 void scanfpassword(char* pwd, int len)
 {
 	int i = 0;
@@ -140,61 +111,170 @@ void back(char* str,char* out)
 	}
 	out[len / 2] = '\0';
 }
+
+mainaccount* getMainAccounts(FILE* file)
+{
+	mainaccount* head = NULL;
+	char name[80];
+	char password[80];
+	char line[256];
+	while (fgets(line, sizeof(line), file))
+	{
+		mainaccount* newnode = (mainaccount*)malloc(sizeof(mainaccount));
+		newnode->next = NULL;
+		if (sscanf(line, "%79[^,],%s\n", newnode->name, password) != 2)
+		{
+			free(newnode);
+			break;
+		}
+		back(password, newnode->password);
+		if (head == NULL)
+		{
+			head = newnode;
+		}
+		else
+		{
+			newnode->next = head;
+			head = newnode;
+		}
+	}
+	return head;
+}
+
+void CreateNewMainAccount()
+{
+	mainaccount* new_mainaccount = (mainaccount*)malloc(sizeof(account));
+	FILE* getfile = NULL;
+	FILE* file = NULL;
+	FILE* write_file;
+	getfile = fopen("D:\\代码\\图书馆管理系统\\激活码.txt", "r");
+	file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "r");
+
+	//激活码模块
+
+	char rightcode[16];
+	fscanf(getfile, "%15s", rightcode);
+	fclose(getfile);
+	rightcode[15] = '\0';
+	for (int i = 0; i < 15; i++)
+	{
+		rightcode[i] = 'A' + (rightcode[i] - 'A' + i + 1) % 26;
+		printf("%c", rightcode[i]);
+	}
+	char code[16];
+	b:
+	printf("请输入激活码:\n"); 
+	fflush(stdin);
+	scanf_s("%s", code, 16);
+	if (strcmp(code, rightcode) == 0)
+	{
+		printf("激活码正确:");
+	}
+	else
+	{
+		goto b;
+	}
+	getfile = fopen("D:\\代码\\图书馆管理系统\\激活码.txt", "w");
+	write_file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "a");
+	fprintf(getfile, "%s", rightcode);
+	fclose(getfile);
+
+	//账号密码输入模块
+
+	a:
+	printf("请输入你的用户名;(8到16个字符)\n");
+	scanf_s("%s", new_mainaccount->name, sizeof(new_mainaccount->name));
+	printf("请输入你的密码;(8到16个字符)\n");
+	scanfpassword(new_mainaccount->password, sizeof(new_mainaccount->password));
+	mainaccount* p = getMainAccounts(file);
+	mainaccount* head = p;
+	while (p != NULL)
+	{
+		if (strcmp(p->name, new_mainaccount->name) == 0)
+		{
+			printf("您的用户名与已存在用户名有冲突  请重新输入\n");
+			goto a;
+		}
+		p = p->next;
+	}
+	while (head != NULL)
+	{
+		mainaccount* temp = head;
+		head = head->next;
+		free(temp);
+	}
+	if (strlen(new_mainaccount->password) > 16 || strlen(new_mainaccount->name) > 16 || strlen(new_mainaccount->password) < 8 || strlen(new_mainaccount->name) < 8)
+	{
+		printf("您的用户名或密码不符合限定长度  请重新输入\n");
+		goto a;
+	}
+
+	//密码加密与数据写入模块
+
+	char password[80];
+	change(new_mainaccount->password, password);
+	fprintf(write_file, "%s,%s\n", new_mainaccount->name, password);
+}
+account* getAccounts(FILE* file)
+{
+	account* head = NULL;
+	char password[80];
+	char line[256];
+	while (fgets(line, sizeof(line), file))
+	{
+		account* newnode = (account*)malloc(sizeof(account));
+		newnode->next = NULL;
+		if (sscanf(line, "%d %s %s %s %s %s %s %s %d %d",
+			&newnode->id,newnode->name,password,
+			newnode->book[0], newnode->book[1],
+			newnode->book[2], newnode->book[3],
+			newnode->book[4], &newnode->maxbook,
+			&newnode->getbook) != 10)
+		{
+			free(newnode);
+			break;
+		}
+		back(password, newnode->password);
+		if (head == NULL)
+		{
+			head = newnode;
+		}
+		else
+		{
+			newnode->next = head;
+			head = newnode;
+		}
+	}
+	return head;
+}
 void CreateNewAccount()
 {
-	printf("请选择你要创建的账户类型:\n1:读者账户\n2:管理员账户(需要激活码)\n");
-	int choice;
-	scanf("%d", &choice);
+	//账户初始化
+
 	account* new_account = (account*)malloc(sizeof(account));
 	if (new_account == NULL)
 	{
 		printf("新账户创建失败,请重试\n");
 		return;
 	}
-	FILE* file = NULL;
-	FILE* getfile = NULL;
-	char rightcode[16];
-	if (choice == 1)
+	for (int i=0;i<5;i++)
 	{
-		file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "r");
+		strcpy(new_account->book[i], "00000");
 	}
-	else
-	{
-		getfile = fopen("D:\\代码\\图书馆管理系统\\激活码.txt","r");
-		file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "r");
-		fscanf(getfile, "%15s",rightcode);
-		fclose(getfile);
-		rightcode[15] = '\0';
-		for (int i = 0;i<15;i++)
-		{
-			rightcode[i] = 'A' + (rightcode[i]-'A'+i+1) % 26;
-			printf("%c", rightcode[i]);
-		}
+	new_account->maxbook = 5;
+	new_account->getbook = 0;
 
-		/*int c;
-		do {
-			c = getchar();
-			printf("清空字符: %c (ASCII: %d)", c, c);
-		} while (c != '\n' && c != EOF);*/
-		
-		char code[16] = "123456789123456";
-		printf("%s\n", code);
-		b:
-		printf("请输入激活码:\n");fflush(stdin);
-		int d=scanf_s("%s", code,16);
-		printf("scanf_s的返回值为%d\n", d);
-		printf("你输入的是%s\n", code);
-		printf("正确的激活码是%s\n", rightcode);
-		if (strcmp(code, rightcode)==0)
-		{
-			printf("激活码正确:");
-		}
-		else
-		{
-			goto b;
-		}
-		
-	}
+	FILE* file = NULL;
+	file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "r");
+	FILE* numfile = NULL;
+	numfile = fopen("D:\\代码\\图书馆管理系统\\id.txt", "r");
+
+	fscanf(numfile, "%d", &new_account->id);
+	int nextid = new_account->id + 1;
+	fclose(numfile);
+
+	//账户注册
+
 	a:
 	printf("请输入你的用户名;(8到16个字符)\n");
 	scanf_s("%s", new_account->name,sizeof(new_account->name));
@@ -222,24 +302,21 @@ void CreateNewAccount()
 		printf("您的用户名或密码不符合限定长度  请重新输入\n");
 		goto a;
 	}
-	printf("%s", new_account->name);
-	char name[80];
+	printf("欢迎你%s\n", new_account->name);
+
+	//加密与写入
+
 	char password[80];
-	//change(new_account->name,name);
 	change(new_account->password,password);
 	fclose(file);
 	FILE* write_file;
-	if (choice == 1) {
-		write_file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "a");
-	}
-	else 
-	{
-		getfile = fopen("D:\\代码\\图书馆管理系统\\激活码.txt","w");
-		write_file = fopen("D:\\代码\\图书馆管理系统\\adAccounts.txt", "a");
-		fprintf(getfile,"%s",rightcode);
-		fclose(getfile);
-	}
-	fprintf(write_file,"%s,%s\n",new_account->name,password);
+	write_file = fopen("D:\\代码\\图书馆管理系统\\accounts.txt", "a");
+	fprintf(write_file,"%d %s %s ",new_account->id,new_account->name,password);
+	fprintf(write_file, "%s %s %s %s %s ", new_account->book[0], new_account->book[1], new_account->book[2], new_account->book[3], new_account->book[4]);
+	fprintf(write_file, "%d %d\n", new_account->maxbook, new_account->getbook);
 	fclose(write_file);
-	
+
+	numfile = fopen("D:\\代码\\图书馆管理系统\\id.txt", "w");
+	fprintf(numfile, "%d", nextid);
+	fclose(numfile);
 }

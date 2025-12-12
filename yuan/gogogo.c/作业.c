@@ -2,6 +2,54 @@
 #include<math.h>
 void prinm(int a[], int len);
 void prinw(int a[], int len);
+typedef struct str
+{
+	char c;
+	int count;
+}str;
+int main()
+{
+	str strs[26];
+	for (int i =0;i<26;i++)
+	{
+		strs[i].count = 0;
+		strs[i].c = 'a' + i;
+	}
+	char s[1024];
+	scanf("%s", s);
+	int i = 0;
+	while (s[i]!='\0')
+	{
+		if ('a'<=s[i]&&'z' >=s[i])
+		{
+			strs[s[i] - 'a'].count++;
+		}
+		i++;
+	}
+	for (i=26;i>0;i--)
+	{
+		int flag = 0;
+		for (int j=0;j<i;j++)
+		{
+			if (strs[j].count < strs[j + 1].count || (strs[j].c > strs[j + 1].c && strs[j].count == strs[j + 1].count))
+			{
+				str temp = strs[j];
+				strs[j] = strs[j + 1];
+				strs[j + 1] = temp;
+				flag = 1;
+			}
+		}
+		if (!flag)
+			break;
+	}
+	for (i=0;i<26;i++)
+	{
+		if (strs[i].count == 0)
+			break;
+		printf("%c    %d\n", strs[i].c, strs[i].count);
+	}
+	getchar();
+}
 //void exe1()
 //{
 //	int x;
