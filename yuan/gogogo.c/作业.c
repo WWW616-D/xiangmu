@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<math.h>
+#include <stdlib.h>
 void prinm(int a[], int len);
 void prinw(int a[], int len);
 typedef struct str
@@ -7,7 +8,7 @@ typedef struct str
 	char c;
 	int count;
 }str;
-int main()
+int main_321()
 {
 	str strs[26];
 	for (int i =0;i<26;i++)
@@ -48,7 +49,6 @@ int main()
 			break;
 		printf("%c    %d\n", strs[i].c, strs[i].count);
 	}
-	getchar();
 }
 //void exe1()
 //{
@@ -313,3 +313,4 @@ int main_32145()
 
 	return 0;
 }
+

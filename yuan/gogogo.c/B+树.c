@@ -632,7 +632,7 @@ void printtree(Btreenode* root,int level)
 }
 void printtree_(Btreenode* root)
 {
-	Btreenode* team[1000];
+	Btreenode* team[50000];
 	int head = 0;
 	int tail = 0;
 	team[0] = root;
@@ -694,21 +694,22 @@ void printleafchain(Btreenode* firstleaf)
 		current = current->next;
 	}
 }
-int main_awsz()
+int main_aaw()
 {
 	srand(time(NULL));
 	Btree* tree = createBtree();
 	printf("创建了一个空树\n");
-	for (int i=0;i<200;i++)
+	for (int i=0;i<2000;i++)
 	{
-		insert_tree(tree,rand()%200+1, (void*)((rand()%200+1)));
+		insert_tree(tree,rand()%20000+1, (void*)((rand()%200+1)));
 	}
 	printtree_(tree->root);
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 	{
-		bdelete(tree, rand() % 200 + 1);
+		bdelete(tree, rand() % 20000 + 1);
 	}
 	printtree_(tree->root);
+	printleafchain(tree->firstleaf);
 	//searchB(tree, 85);
 	getchar();
 	return 0;
