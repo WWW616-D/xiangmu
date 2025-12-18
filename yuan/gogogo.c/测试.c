@@ -2,108 +2,38 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-int* findAnagrams(char* s, char* p, int* returnSize)
+int** createnums(int* len,int** col)
 {
-    *returnSize = 0;
-    short slong = strlen(s);
-    int* result = (int*)calloc(slong, sizeof(int));
-    short k = strlen(p);
-    short a[26];
-    for (int i = 0; i < k; i++)
+    printf("请输入二维数组的长度:\n");
+    scanf("%d", len);
+    *col = (int*)calloc(*len, sizeof(int));
+    printf("你将输入一系列数来决定这个数组内部数组的长度:\n");
+    for (int i=0;i<*len;i++)
     {
-        a[s[i] - 97]++;
+        scanf("%d", *col + i);
     }
-    short b[26];
-    for (int i = 0; i < k; i++)
+    int** nums = (int**)malloc(*len*sizeof(int*));
+    for (int i=0;i<*len;i++)
     {
-        b[s[i] - 97]++;
+        nums[i] = (int*)calloc(*(*col + i), sizeof(int));
     }
-    int i = k;
-    int flag = 1;
-    while (s[i] != '\0')
+    printf("你将对这个二维数组赋值:\n");
+    for (int i=0;i<*len;i++)
     {
-        flag = 1;
-        for (int j = 0; j < 26; j++)
+        for (int j=0;j<*(*col+i);j++)
         {
-            if (a[j] != b[j])
-            {
-                flag = 0;
-                break;
-            }
-        }
-        if (flag)
-        {
-            printf("这里做了一次加入\n");
-            result[*returnSize] = i - k;
-            (*returnSize)++;
-        }
-        a[s[i - k] - 97]--;
-        a[s[i] - 97]++;
-        i++;
-    }
-    printf("当前的i为%d\n", i);
-    flag = 1;
-    for (int j = 0; j < 26; j++)
-    {
-        if (a[j] != b[j])
-        {
-            printf("发现不相等了\n");
-            flag = 0;
-            break;
+            scanf("%d", &nums[i][j]);
         }
     }
-    if (flag)
-    {
-        printf("这里做了一次加入\n");
-        result[*returnSize] = i - k;
-        (*returnSize)++;
-    }
-    return result;
+    return nums;
 }
-int main_23155()
+
+int main_35()
 {
-   /* char a[5];
-    char b[3];
-    int c;
-    int* d = &c;
-    scanf("%s %s", &a, &b);
-    int* result=findAnagrams(a, b, d);
-    for (int i=0;i<c;i++)
-    {
-        printf("%d", result[i]);
-    }*/
-    int count[4];
-    char A = 'A';
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            int a;
-            printf("请问%c和%c有几座桥相连:\n", A + i, A + j);
-            scanf("%d", &a);
-            count[i] += a;
-        }
-    }
-    int flag=0;
-    for (int i = 0; i < 4; i++)
-    {
-        if (count[i] == 0)
-        {
-            printf("不能走完，有岛去不了.");
-            break;
-        }
-        if (count[i] % 2 == 0)
-            flag++;
-    }
-    if (flag == 4)
-    {
-        printf("能走完并回去.");
-    }
-    else if (flag == 2)
-    {
-        printf("能走完但回不去.");
-    }
-    else
-        printf("走不完");
-    return 0;
+   /* int len;
+    int* col;
+    int** nums = createnums(&len, &col);
+    printf("%d", orangesRotting(nums, len, col));
+    scanf("%d", &len);
+    return 0;*/
 }
