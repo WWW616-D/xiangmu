@@ -162,9 +162,40 @@ void Eight_Queens()
 	}
 	printf("%d", count);
 }
-int main()
+
+void killnum(int num,int* a,int* count)
 {
-	Eight_Queens();
+	if (num==0)
+	{
+		printf("%d", a[0]);
+		for (int i=1;i<*count;i++)
+		{
+			printf("+%d", a[i]);
+		}
+		printf("\n");
+		return;
+	}
+	if (num == 1) {
+		a[*count] = 1;
+		(*count)++;
+		killnum(0, a, count);  
+		(*count)--;
+		return;
+	}
+	for (int i=1;i<=num;i++)
+	{
+		a[*count] = i;
+		(*count)++;
+		killnum(num - i,a,count);
+		(*count)--;
+	}
+}
+int main_1()
+{
+	int a[100];
+	int count = 0;
+	//Eight_Queens();
+	killnum(10,a,&count);
 	/*str strs[26];
 	for (int i =0;i<26;i++)
 	{

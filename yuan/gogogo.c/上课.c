@@ -493,8 +493,10 @@ void print(char zimu)
 		}
 	}
 }
-int main_asdawd()
+int main_444()
 {
+	char* num = "1.05";
+	float f = 1.05;
 	/*int a[5][5];
 	srand(time(NULL));
 	for (int i = 0; i < 5; i++)
@@ -532,11 +534,11 @@ int main_asdawd()
 	}
 	printf("%d\n%d", count1, count2);
 	*/
-	char a;
+	/*char a;
 	printf("请输入要多少行");
 	scanf("%c", &a);
 	print(a);
-	
+	*/
 	
 	//printf("hello world\n");
 	//printf("我不要上早八\n");

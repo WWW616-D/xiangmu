@@ -87,7 +87,6 @@ static int float_multiply(unsigned int* to, unsigned int* from)     //378,381ĞĞµ
             temp[i + j + 1] += (unsigned int)n;
         }
     }
-
     for (i = 6 * 2; --i;) {                    //MANT_LIMBS=6
         temp[i - 1] += temp[i] >> 32;         // temp[i] >> LIMB_BITS
         temp[i] &= 0xffffffff;                  // temp[i] &= LIMB_MASK
@@ -103,7 +102,8 @@ static int float_multiply(unsigned int* to, unsigned int* from)     //378,381ĞĞµ
         dprintf(("%s=" MANT_FMT " (%i)\n", "prod", SOME_ARG(to, 0), 0));
         return 0;
     }
-    else {
+    else 
+    {
         for (i = 0; i < 6; i++) {                                          //MANT_LIMBS=6
             to[i] = (temp[i] << 1) + !!(temp[i + 1] & LIMB_TOP_BIT);         //Óë 8000 0000H Óë
         }
@@ -112,11 +112,7 @@ static int float_multiply(unsigned int* to, unsigned int* from)     //378,381ĞĞµ
     }
 }
 
-/*
- * ---------------------------------------------------------------------------
- *  convert
- * ---------------------------------------------------------------------------
- */
+
 
  //½«×Ö·û´®×ª»¯Îª¸¡µãÊı
  //ment uint32_t[6] 6¸ö32×Ö½ÚÊı×é
@@ -143,6 +139,7 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
     tenpwr = 0;
     started = seendot = false;
 
+    //ÓÃ¸÷ÖÖ·½·¨µÃµ½½×Êı
     //Ñ­»·×Ö·û´®µÄÃ¿¸ö×Ö·û
     while (*string && *string != 'E' && *string != 'e') {
         //ÅĞ¶ÏĞ¡Êıµã³öÏÖµÄ´ÎÊı£¬Èç¹û´óÓÚ1´ÎÔò±¨´í
@@ -192,7 +189,8 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
                     }
                 }
                 //Èç¹ûÎ´³öÏÖĞ¡Êıµã£¬¼ÆËã10´Î·½µÄÖ¸Êı£¬1000 tenpwr=4
-                if (!seendot) {
+                if (!seendot) 
+                {
                     tenpwr++;
                 }
             }
@@ -211,12 +209,8 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
         }
         string++;
     }
-
-    /*
-     * At this point, the memory interval [digits,p) contains a
-     * series of decimal digits zzzzzzz, such that our number X
-     * satisfies X = 0.zzzzzzz * 10^tenpwr.
-     */
+    
+    
      //´ËÊ±£¬digitsÊı×éÖĞ°´Î»´æ·ÅÁË´ÓµÚÒ»¸ö·Ç0Êı×Ö¿ªÊ¼µÄ£¬Ã¿Ò»Î»µÄÊıÖµ
      //digitsµÄÓĞĞ§ÏÂ±êÎª [0] ~ [pÖ®Ç°Ò»Î»],ÕâÀïpÊÇÖ¸Õë
     q = digits;
@@ -227,14 +221,11 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
     }
     dprintf((" * 10^%i\n", tenpwr));
 
-    /*
-     * Now convert [digits,p) to our internal representation.
-     */
-
      // ¿ªÊ¼×ª»»
 
      //¶ş½øÖÆ bit = 1000 0000 0000 0000 0000 0000 0000 0000 
-    bit = LIMB_TOP_BIT;                    //8000 0000H 
+    bit = LIMB_TOP_BIT;
+    //bit >>= 1;//8000 0000H 
     dprintf(("bit=%x\n", bit));
 
     //³õÊ¼»¯Ã¿Ò»Î»Îª0
@@ -247,15 +238,15 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
     twopwr = 0;  //¶ş½øÖÆ¼ÆÊıµÄÖ¸ÊıÖµ£¬Ä¬ÈÏÎª0
 
     //´ËÊ± p Ö¸ÏòdigitsÖĞ×îºóÒ»Î»ÓĞĞ§Êı×ÖµÄºóÒ»Î»
-    //     q Ö¸ÏòdigitsÖĞµÚÒ»Î»
+    //     q Ö¸ÏòdigitsÖĞµÚÒ»Î»,²»¶¯
     while (m < mant + 6) {                        ////MANT_LIMBS=6
         unsigned int carry = 0;//ÓÃÓÚ´æ·Å½øÎ»
 
         //´Ó×îºóÒ»Î»p[-1]¿ªÊ¼£¬Èç¹ûÎª0£¬Ôòp--£¬ÒÆ³ıµôºóÃæµÄ0
-        while (p > q && !p[-1]) {
+        while (p > q && !p[-1]) 
+        {
             p--;
         }
-
         //Èç¹ûÈ«²¿ÊÇ0(p==q±íÊ¾ÒÑ¾­ÒÆ¶¯µ½ÁËµÚÒ»Î»)£¬Ö±½Óbreak
         if (p <= q) {
             break;
@@ -268,19 +259,19 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
         //´ÓÄ©Î»¿ªÊ¼*2 + ½øÎ»£¬
         //Ö»±£Áô¸öÎ»µÄÖµ
         //carry´æ·Å½øÎ»
-        for (r = p; r-- > q;) {
+        for (r = p-1; r>= q;r--) {
             int32_t i;
             i = 2 * *r + carry;
             if (i >= 10) {
                 carry = 1;
                 i -= 10;
-            }
+            }                                               
             else {
                 carry = 0;
             }
             *r = i;
         }
-
+        
         //Ñ­»·½áÊøºó£¬µ±Ç°µÄcarry´æ·ÅµÄÊÇµÚÒ»Î»*2ºóµÄ½øÎ»
         //ÔÚÃ»ÓĞ½øÎ»Ç°£¬²»½øĞĞ¶ş½øÖÆµÄ×ª»»£¬Ö»¼ÆËãtowpwr--,Ïàµ±ÓÚ µ±Ç°µÄÊı * 2^-towpwr
         //ÀıÈç£º0.05 = 0.1*2^-1 = 0.2*2^-2 = 0.4*2^-3 = 0.8*2^-4 = 1.6*2^-5 
@@ -317,8 +308,8 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
                 m++;
             }
             else {
-                //Ã¿´ÎÑ­»·£¬¶¼ÓÒÒÆ1Î»
                 bit >>= 1;
+                //Ã¿´ÎÑ­»·£¬¶¼ÓÒÒÆ1Î»
             }
         }
         //Èç¹û»¹Ã»ÓĞ¿ªÊ¼¶ş½øÖÆ×ª»»
@@ -327,23 +318,16 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
         }
     }
 
-    //¶ş½øÖÆÖ¸Êı + Ê®½øÖÆÖ¸Êı£¿£¿£¿
+    //¶ş½øÖÆÖ¸Êı + Ê®½øÖÆÖ¸Êı£¿£¿£¿666
     twopwr += tenpwr;
 
-    /*
-     * At this point, the 'mant' array contains the first frac-
-     * tional places of a base-2^16 real number which when mul-
-     * tiplied by 2^twopwr and 5^tenpwr gives X.
-     */
-
+   
      /*
          ´ËÊ±£¬'mant'Êı×é°üº¬ÒÔ2^16Îª»ùÊıµÄÊµÊıµÄµÚÒ»¸öĞ¡ÊıÎ»
          ¸ÃÊµÊı³ËÒÔ2^twopwrºÍ5^tenpwrµÃµ½X¡£
      */
-
     dprintf(("X = " MANT_FMT " * 2^%i * 5^%i\n", MANT_ARG, twopwr,
         tenpwr));
-
     /*
      * Now multiply 'mant' by 5^tenpwr.
      */
@@ -354,14 +338,6 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
         mult[6 - 1] = LIMB_BYTE(0xcc) + 1;
         extratwos = -2;
         tenpwr = -tenpwr;
-
-        /*
-         * If tenpwr was 1000...000b, then it becomes 1000...000b. See
-         * the "ANSI C" comment below for more details on that case.
-         *
-         * Because we already truncated tenpwr to +5000...-5000 inside
-         * the exponent parsing code, this shouldn't happen though.
-         */
     }
     else if (tenpwr > 0) {    /* mult = 5^+1 = 5.0 */
         mult[0] = (unsigned int)5 << (32 - 3); /* 0xA000... */   //LIMB_BITS-3
@@ -383,47 +359,22 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
         dprintf(("mult*mult\n"));
         extratwos = extratwos * 2 + float_multiply(mult, mult);
         tenpwr >>= 1;
-
-        /*
-         * In ANSI C, the result of right-shifting a signed integer is
-         * considered implementation-specific. To ensure that the loop
-         * terminates even if tenpwr was 1000...000b to begin with, we
-         * manually clear the MSB, in case a 1 was shifted in.
-         *
-         * Because we already truncated tenpwr to +5000...-5000 inside
-         * the exponent parsing code, this shouldn't matter; neverthe-
-         * less it is the right thing to do here.
-         */
-        tenpwr &= (uint32_t)-1 >> 1;
+        tenpwr &= (uint32_t)-1 >> 1;//ÊÖ¶¯ÇåÀí×î¸ßÎ»£¬¼«¶Ë·ÀÓù£¿
     }
-
-    /*
-     * At this point, the 'mant' array contains the first frac-
-     * tional places of a base-2^16 real number in [0.5,1) that
-     * when multiplied by 2^twopwr gives X. Or it contains zero
-     * of course. We are done.
-     */
     *exponent = twopwr;
     return true;
 }
 
-/*
- * ---------------------------------------------------------------------------
- *  operations of specific bits
- * ---------------------------------------------------------------------------
- */
 
- /* Test a single bit */
+
+//¼ì²éÒª±£ÁôµÄ×îºóÒ»Î»
 static int test_bit(const unsigned int* mant, int bit)
 {
+    //ÕÒµ½¶ÔÓ¦¿é
+    //ÕÒµ½¶ÔÓ¦Î»ÖÃ²¢ÒÆµ½×îµÍÎ»
+    //(~bit & 31) = 31 - (bit % 32)
     return (mant[bit / 32] >> (~bit & (32 - 1))) & 1;    //bit/LIMB_BITS   (LIMB_BITS-1)
 }
-
-/*
- * ---------------------------------------------------------------------------
- *  round a mantissa off after i words
- * ---------------------------------------------------------------------------
- */
 
 #define ROUND_COLLECT_BITS                      \
     do {                                        \
@@ -475,8 +426,10 @@ static bool ieee_round(bool minus, unsigned int* mant, int bits)
                 ROUND_ABS_UP;
             }
             else {
-                if (test_bit(mant, bits - 1)) {
-                    ROUND_ABS_UP;
+                if (test_bit(mant, bits - 1)) {//¼ì²éÒª±£ÁôµÄ×îºóÒ»Î»
+                    do {
+                        mant[i] = (mant[i] & ~(bit - 1)) + bit; for (j = i + 1; j < 6; j++) mant[j] = 0; while (i > 0 && !mant[i]) ++mant[--i]; return !mant[0];
+                    } while (0);
                 }
                 else {
                     ROUND_ABS_DOWN;
@@ -492,8 +445,6 @@ static bool ieee_round(bool minus, unsigned int* mant, int bits)
         ROUND_ABS_DOWN;
     }
     else {
-        /* rc == (minus ? FLOAT_RC_DOWN : FLOAT_RC_UP) */
-        /* Round toward +/- infinity */
         ROUND_COLLECT_BITS;
         if (m) {
             ROUND_ABS_UP;
@@ -545,49 +496,6 @@ static void ieee_shr(unsigned int* mant, int i)
     while (j >= 0)
         mant[j--] = 0;
 }
-
-/* Produce standard IEEE formats, with implicit or explicit integer
-   bit; this makes the following assumptions:
-
-   - the sign bit is the MSB, followed by the exponent,     //( most significant bit,MSB)
-     followed by the integer bit if present.
-   - the sign bit plus exponent fit in 16 bits.
-   - the exponent bias is 2^(n-1)-1 for an n-bit exponent */
-
-   /*
-    * The 16- and 128-bit formats are expected to be in IEEE 754r.
-    * AMD SSE5 uses the 16-bit format.
-    *
-    * The 32- and 64-bit formats are the original IEEE 754 formats.
-    *
-    * The 80-bit format is x87-specific, but widely used.
-    *
-    * The 8-bit format appears to be the consensus 8-bit floating-point
-    * format.  It is apparently used in graphics applications.
-    *
-    * The b16 format is a 16-bit format with smaller mantissa and larger
-    * exponent field.  It is effectively a truncated version of the standard
-    * IEEE 32-bit (single) format, but is explicitly supported here in
-    * order to support proper rounding.
-    *
-    * This array must correspond to enum floatize in include/nasm.h.
-    * Note that there are some formats which have more than one enum;
-    * both need to be listed here with the appropriate offset into the
-    * floating-point byte array (use for the floatize operators.)
-    *
-    * FLOAT_ERR is a value that both represents "invalid format" and the
-    * size of this array.
-    */
-
-    //struct ieee_format {             Õâ¸ö¸ñÊ½ÔÚ float.hÖĞ¶¨ÒåÁË 
-    //    int bytes;                  /* Total bytes */
-    //    int mantissa;               /* Fractional bits in the mantissa */
-    //    int explicit;               /* Explicit integer */
-    //    int exponent;               /* Bits in the exponent */
-    //    int offset;                 /* Offset into byte array for floatize op */
-    //   }; 
-
-     //¸øÇ°Ãæflaots.hÎÄ¼ş¶¨ÒåµÄÕâ¸öÊı×Ö¸³³õÖµ 
 const struct ieee_format fp_formats[FLOAT_ERR] = {
     {  1,   3, 0,  4, 0 },         /* FLOAT_8 */
     {  2,  10, 0,  5, 0 },         /* FLOAT_16 */
@@ -614,13 +522,13 @@ int float_const(const char* str, int s, uint8_t* result, enum floatize ffmt)  //
     const struct ieee_format* fmt = &fp_formats[ffmt];       //ffmt=3    fmt Ö¸ÏòµÚ3ĞĞ float 32 ²ÎÊı 
     unsigned int mant[6];      //MANT_LIMBS=6
     int32_t exponent = 0;
-    const int32_t expmax = 1 << (fmt->exponent - 1);           // expmax=0000 0080H = 128
+    const int32_t expmax = 1 << (fmt->exponent - 1);           // expmax=0000 0080H = 128  //¼ÆËã½×ÊıÎ»ÖÃ+1
     unsigned int one_mask = 0x80000000 >>                       //one_mask=0080 0000H
-        ((fmt->exponent + fmt->explicit) % 32);
-    const int one_pos = (fmt->exponent + fmt->explicit) / 32;      //one_pos=0
+        ((fmt->exponent + fmt->explicit) % 32);               //¶¨Î»Òş²Ø1µÄÎ»ÖÃ
+    const int one_pos = (fmt->exponent + fmt->explicit) / 32;      //one_pos=0  //¼ÆËãÒş²ØµÄ1ÔÚµÚ¼¸¸öÎ²ÊıÖĞ
     int i;
-    int shift;
-    enum floats type;
+    int shift; // ÒÆÎ»¼ÆÊı£¬ÓÃÓÚµ÷ÕûÊı¾İÎ»ÖÃ
+    enum floats type; // ¸¡µãÊıÀàĞÍÃ¶¾Ù£¬ºóÃæÅĞ¶ÏÌØÊâÖµÓÃ
     bool ok;
     const bool minus = s < 0;                                  //minus=false
     const int bits = fmt->bytes * 8;                           //bits=32
@@ -632,7 +540,7 @@ int float_const(const char* str, int s, uint8_t* result, enum floatize ffmt)  //
     //·µ»Øºó£¬mant[0]=86666666 mant[1]-[5]=6666 6666    exponent=1
     exponent--;
 
-    exponent += expmax - 1;   //exponent=127
+    exponent += expmax - 1;   //exponent=127   //ÕæÕı½×Êı
 
     //½«µÃµ½µÄÊı×Ö£¬ÕûÌåÓÒÒÆÖ¸Êı+ÕûÊıµÄÕ¼Î»Î»Êı
     //float32 ¾ÍÊÇÓÒÒÆ8Î»  mant[0]=0086666 mant[1]-[5]=6666 6666
@@ -655,15 +563,15 @@ int float_const(const char* str, int s, uint8_t* result, enum floatize ffmt)  //
 
     //LIMB_BYTES = 32/8 = 4 ×Ö½Ú
     //result´ÓºóÍùÇ°Ã¿´ÎÈ¡8Î»
+    //resultÊÇÒ»¸öuint8_t,¸³ÖµµÄÊ±ºò·¢ÉúÁË½Ø¶Ï
     for (i = 3; i >= 0; i--)    //3=fmt->bytes-1
         *result++ = mant[i / 4] >> (((4 - 1) - (i % 4)) * 8);     /*ÕâÀïLIMB_BYTES¾ÍÊÇ4£¬i/4=0,¹² ÓÒÒÆ4´Î£º0Î»¡¢8Î»¡¢16Î»¡¢24 Î» ,½«×îµÍ8Î»µÄÖµ66 66 86 3f
                                                         ·ÖËÄ´Î ¸³¸ø¶ÔÓ¦µÄresult[0-3] */
     return 1;                   /* success */
 }
 
-int main_awas(int argc, char** argv)
+int main(int argc, char** argv)
 {
-
     int i = 0;
     char* number = "1.05";            //0.105* 10^1
     uint8_t result[4], * p;                //uint8_t ¿É¿´³É unsigned char
@@ -672,22 +580,17 @@ int main_awas(int argc, char** argv)
     enum floatize ffmt = FLOAT_32;    //FLOAT_32=3;
     int a;
     a = float_const(number, 0, result, ffmt);          //ffmt=3        598
-
     printf("a=%d ,result=%x\n", a, result);
-
     for (i = 0; i <= 3; i++)
         printf("%x ", *(p + i));
     printf("\n");
-
     /*float f=1.05,*p3;
     unsigned char *p1;
     char *p2;
     p2=&f;                         //Èç¹ûÕâÑùĞ´£¬ÓĞ¾¯¸æ£¬²»¼æÈİµÄÖ¸ÕëÀàĞÍ
     //int size = sizeof(f);
     //printf("size of f %d \n",size);
-
     p=(unsigned char*) &f;
     for(i=0;i<4;i++)
         printf("%x ",*(p+i)) ;  */
-
 }

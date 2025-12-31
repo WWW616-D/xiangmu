@@ -42,16 +42,16 @@
 
   /* Must match the fp_formats[] array in asm/floats.c */
 enum floatize {
-    FLOAT_8,
-    FLOAT_16,
-    FLOAT_B16,
-    FLOAT_32,
-    FLOAT_64,
-    FLOAT_80M,
-    FLOAT_80E,
-    FLOAT_128L,
-    FLOAT_128H,
-    FLOAT_ERR                   /* Invalid format, MUST BE LAST */
+    FLOAT_8,  //0
+    FLOAT_16,  //1
+    FLOAT_B16,  //2 
+    FLOAT_32,   //3
+    FLOAT_64,   //4
+    FLOAT_80M,  //5
+    FLOAT_80E,  //6 
+    FLOAT_128L, //7
+    FLOAT_128H, //8
+    FLOAT_ERR   //9                /* Invalid format, MUST BE LAST */
 };
 enum float_round {
     FLOAT_RC_NEAR,
@@ -62,13 +62,13 @@ enum float_round {
 /* Note: enum floatize and FLOAT_ERR are defined in nasm.h */
 /* Floating-point format description */
 struct ieee_format {
-    int bytes;                  /* Total bytes */
-    int mantissa;               /* Fractional bits in the mantissa */
-    int explicit;               /* Explicit integer */
-    int exponent;               /* Bits in the exponent */
-    int offset;                 /* Offset into byte array for floatize op */
+    int bytes;                  /* Total bytes */  //总字节数
+    int mantissa;               /* Fractional bits in the mantissa */   //尾数位数   
+    int explicit;               /* Explicit integer */  // 显式整数位
+    int exponent;               /* Bits in the exponent */   //指数位数
+    int offset;                 /* Offset into byte array for floatize op */  //偏移
 };
-extern const struct ieee_format fp_formats[FLOAT_ERR];
+extern const struct ieee_format fp_formats[FLOAT_ERR];  //何意味
 
 int float_const(const char* str, int s, uint8_t* result, enum floatize ffmt);
 enum floatize float_deffmt(int bytes);

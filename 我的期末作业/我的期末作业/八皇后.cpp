@@ -167,7 +167,7 @@ void Eight_Queens()
 	}
 	printf("%d", count);
 }
-int main()
+int main_aa()
 {
 	printf("接下来将有画面展示八皇后的92种解法，点击任意键开始:\n演示过程种点击空格或左右箭头循环切换解法");
 	system("pause");
