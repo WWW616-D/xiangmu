@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include<stdio.h>
+#include"works.h"
 #include<time.h>
-#include<stdlib.h>
 #include"raylib.h"
 int result[92][8];
 void kill(int** nums, int i, int j)
@@ -167,7 +166,7 @@ void Eight_Queens()
 	}
 	printf("%d", count);
 }
-int main_aa()
+void EightQueensShow()
 {
 	printf("接下来将有画面展示八皇后的92种解法，点击任意键开始:\n演示过程种点击空格或左右箭头循环切换解法");
 	system("pause");
@@ -233,7 +232,6 @@ int main_aa()
 		}
 		EndDrawing();
 	}
-	
-	return 0;
+	CloseWindow();
 }
 	

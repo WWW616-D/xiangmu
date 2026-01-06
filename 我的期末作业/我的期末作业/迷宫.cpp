@@ -1,5 +1,4 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include"works.h"
 #include<math.h>
 #include<string.h>
 #include"raylib.h"
@@ -158,14 +157,12 @@ void DrawPath(ways* path, Color color)
 			DrawCircle(x, y - 2, radius / 2, color);
 		}
 	}
-
 	for (int k = 0; k < path->length; k++)
 	{
 		int i = path->way[k][0];
 		int j = path->way[k][1];
 		int centerX = j * CELL_SIZE + CELL_SIZE / 2;
 		int centerY = i * CELL_SIZE + CELL_SIZE / 2;
-
 		DrawCircle(centerX, centerY, CELL_SIZE / 5, color);
 	}
 }
@@ -185,13 +182,13 @@ void DrawMaze()
 		}
 	}
 }
-int main_44()
+void MazeShow()
 {
 	Maze();
 	if (count==0)
 	{
 		printf("没有可行路径\n");
-		return 0;
+		return;
 	}
 	printf("共有%d种路径\n", count);
 	printf("输入任意字符开始生成该迷宫的所有路径\n用左右键来控制展示不同路径");
@@ -241,4 +238,5 @@ int main_44()
 		}
 		EndDrawing();
 	}
+	CloseWindow();
 }

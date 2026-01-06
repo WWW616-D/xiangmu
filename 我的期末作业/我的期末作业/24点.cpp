@@ -1,5 +1,4 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include"works.h"
 #include<math.h>
 #include<string.h>
 #define MIN 1e-6
@@ -143,7 +142,7 @@ void find(float* num,int len,char** num_str)
 		return;
 	}
 }
-int main()
+void TwentyFourPoint()
 {
 	printf("你好,欢迎来到二十四点\n");
 	printf("给出任意四个整数，你将得到它们全部的24点解法:\n");
