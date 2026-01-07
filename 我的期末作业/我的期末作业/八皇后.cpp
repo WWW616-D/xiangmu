@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include"works.h"
 #include<time.h>
-#include"raylib.h"
+#include<raylib.h>
 int result[92][8];
 void kill(int** nums, int i, int j)
 {
@@ -164,7 +164,8 @@ void Eight_Queens()
 			free(plan);
 		}
 	}
-	printf("%d", count);
+	
+	
 }
 void EightQueensShow()
 {
@@ -185,9 +186,9 @@ void EightQueensShow()
 	{
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
-		for (int row = 0;row<boardSize;row++)
+		for (int row = 0; row < boardSize; row++)
 		{
-			for (int col=0;col<boardSize;col++)
+			for (int col = 0; col < boardSize; col++)
 			{
 				int posX = col * cellSize;
 				int posY = row * cellSize;
@@ -198,8 +199,8 @@ void EightQueensShow()
 		}
 		const char* titleText = "Eight Queens\nChessboard(8*8)";
 		int textWidth = MeasureText(titleText, 30);
-		DrawText(titleText, (len - textWidth) / 2-100, 10, 50, BLACK);
-		for (int row = 0; row < boardSize; row++) 
+		DrawText(titleText, (len - textWidth) / 2 - 100, 10, 50, BLACK);
+		for (int row = 0; row < boardSize; row++)
 		{
 			int queenCol = result[currentsolution][row];
 			float centerX = queenCol * cellSize + cellSize / 2.0f;
@@ -216,7 +217,7 @@ void EightQueensShow()
 			DrawCircleLines(centerX, centerY, radius, GOLD);
 			DrawCircleLines(centerX, centerY, radius + 1, GOLD);
 		}
-		if (IsKeyPressed(KEY_SPACE)) 
+		if (IsKeyPressed(KEY_SPACE))
 		{
 			currentsolution = (currentsolution + 1) % 92;
 		}
@@ -232,6 +233,4 @@ void EightQueensShow()
 		}
 		EndDrawing();
 	}
-	CloseWindow();
 }
-	

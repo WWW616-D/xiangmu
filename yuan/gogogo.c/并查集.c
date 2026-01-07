@@ -129,7 +129,7 @@ void union_set(int x, int y) {
     }
 }
 
-int main() {
+int main_564() {
     int n = 7;
     init(n);
 

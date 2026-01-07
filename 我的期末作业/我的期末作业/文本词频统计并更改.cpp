@@ -79,7 +79,8 @@ void clean_word(char* word) {
 		if ((word[i] >= 'a' && word[i] <= 'z') ||
 			(word[i] >= 'A' && word[i] <= 'Z') ||
 			(word[i] >= '0' && word[i] <= '9') ||
-			(word[i] == '-')) {
+			(word[i] == '-')||
+			word[i] == '\'') {
 			word[j++] = word[i];
 		}
 	}
@@ -128,7 +129,7 @@ void WordsCountAndChange()
 	hashmap* map = createhashmap();
 	int len = 0;
 	char arr[1024];
-	const char* bad = ",.;!? \n\t:\"()[]-_'”“‘’—–•@#$%^&*+=/\\|<>{}~`;";
+	const char* bad = " ,.;!?\n\t:\"()[]{}<>@#$%^&*+=/\\|~`";
 	while (1)
 	{
 		char* str = fgets(arr, 1024, file);

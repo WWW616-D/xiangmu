@@ -126,8 +126,6 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
     int32_t tenpwr; //数值对应的科学计数法中，10的负几次方，例如：0.0001 = 0.1 * 10^-3 tenpwr=-3; 1000 = 0.1 * 10^4 tenpwr=4 
     int32_t twopwr;
     int32_t extratwos;
-
-
     bool started;
 
     bool seendot;//是否已经出现了小数点
@@ -317,7 +315,6 @@ static bool ieee_flconvert(const char* string, unsigned int* mant,
             twopwr--;
         }
     }
-
     //二进制指数 + 十进制指数？？？666
     twopwr += tenpwr;
 
@@ -570,7 +567,7 @@ int float_const(const char* str, int s, uint8_t* result, enum floatize ffmt)  //
     return 1;                   /* success */
 }
 
-int main_11(int argc, char** argv)
+int main(int argc, char** argv)
 {
     int i = 0;
     char* number = "1.05";            //0.105* 10^1
