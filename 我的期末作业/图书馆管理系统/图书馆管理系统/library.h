@@ -76,3 +76,6 @@ void StorageAccount();
 void StorageRecord();
 void BackBook(account* sir);
 void StorageAccount();
+void CleanStdin();
+void GetTime(long long int times, char* buffer, int buffer_size);
+

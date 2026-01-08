@@ -32,7 +32,7 @@ int login(account** sir,MainAccount** leader)
 	int count = 0;
 
 start:
-
+	CleanStdin();
 	printf("你的身份是:\n1:读者\n2:管理员\n");
 	int choice;
 	
@@ -265,7 +265,8 @@ account* GetAccounts(FILE* file)
 {
 	account* head = NULL;
 	char password[80];
-	char line[256];
+	char line[256]
+	fgets(line, sizeof(line), file);
 	while (fgets(line, sizeof(line), file))
 	{
 		account* newnode = (account*)malloc(sizeof(account));
@@ -298,7 +299,8 @@ account* GetAccounts(FILE* file)
 }
 void CreateNewAccount()
 {
-	//账户初始化
+
+	//初始化账号
 
 	account* new_account = (account*)malloc(sizeof(account));
 	if (new_account == NULL)
@@ -326,7 +328,7 @@ void CreateNewAccount()
 		char code[16];
 	b:
 		printf("请输入激活码:\n");
-		fflush(stdin);
+		CleanStdin();
 		scanf_s("%s", code, 16);
 		if (strcmp(code, rightcode) == 0)
 		{
@@ -370,11 +372,21 @@ void CreateNewAccount()
 
 	//账户注册
 
-	a:
+a:
+	CleanStdin();
 	printf("请输入你的用户名;(8到16个字符)\n");
 	scanf_s("%s", new_account->name,sizeof(new_account->name));
+	CleanStdin();;
 	printf("请输入你的密码;(8到16个字符)\n");
 	ScanfPassword(new_account->password, sizeof(new_account->password));
+	printf("请再次确认您的密码:");
+	char PassWord[20];
+	ScanfPassword(PassWord, sizeof(PassWord));
+	if (strcmp(PassWord,new_account->password)!=0)
+	{
+		printf("您两次输入的密码不一致，请再次输入!\n");
+		goto a;
+	}
 	account* p = GetAccounts(file);
 	account* head = p;
 	while (p!=NULL)
@@ -418,7 +430,7 @@ void StorageAccount()
 {
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\accounts.txt", "w");
 	char password[80];
-	
+	fprintf(file, "用户编号 | 用户名 | 用户密码 | 最大借书数 | 已经借书数目 | 超额赔付(元/天) | 违规次数 | 是否有特权 | 可借天数\n");
 	while (AccountHead!=NULL)
 	{
 		memset(password, 0, sizeof(password));
@@ -429,4 +441,9 @@ void StorageAccount()
 		AccountHead = AccountHead->next;
 	}
 	fclose(file);
+}
+void CleanStdin() 
+{
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);
 }

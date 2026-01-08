@@ -9,6 +9,7 @@ record* GetRecord()
 	record* head = NULL;
 	record* tail = NULL;
 	char line[512];
+	fgets(line, sizeof(line), file);
 	while (fgets(line, sizeof(line), file))
 	{
 		record* records = (record*)malloc(sizeof(record));
@@ -28,7 +29,6 @@ record* GetRecord()
 		}
 		if (head == NULL)
 		{
-			printf("创建头节点\n");
 			head = records;
 			tail = records;
 		}
@@ -38,7 +38,6 @@ record* GetRecord()
 			tail = records;
 		}
 	}
-	printf("你好");
 	return head;
 }
 void ShowRecord(record* head)
@@ -57,6 +56,7 @@ void ShowRecord(record* head)
 void StorageRecord()
 {
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\借书记录.txt", "w");
+	fprintf(file, "流水编号 | 图书编号 | 书籍名称 | 借书用户编号 | 借出时间 | 应还时间 | 实际归还时间 | 业务标记:0为未归还，1为正常归还，2为逾期归还\n");
 	while (RecordHead!=NULL)
 	{
 		fprintf(file, "%d|%d|%s|%d|%s|%s|%s|%d\n",

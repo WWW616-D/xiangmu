@@ -5,6 +5,7 @@ book* GetBookInformation()
 	book* head = NULL;
 	book* tail = NULL;
 	char line[256];
+	fgets(line, sizeof(line), file);
 	while (fgets(line, sizeof(line), file))
 	{
 		book* newnode = (book*)malloc(sizeof(book));
@@ -39,6 +40,7 @@ book* GetBookInformation()
 void StorageBookInformation()
 {
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\books.txt", "w");
+	fprintf(file, "书籍编号 | 书籍名称 | 作者名 | 出版社名 | 出版日期 | 是否在库 | 借出时间戳\n");
 	while (BookHead!=NULL)
 	{
 		fprintf(file, "%d|%s|%s|%s|%s|%d|%lld\n",
@@ -230,14 +232,23 @@ void ShowBook(book* head,int power)
 	{
 		if (power==2)
 		{
-			printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d|出库时间:%lld\n", 
+			char time[32];
+			if (head->outtime != 0)
+			{
+				GetTime(head->outtime, time, sizeof(time));
+			}
+			else
+			{
+				strcpy(time, "还没有出库");
+			}
+			printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d|出库时间:%s\n", 
 				head->id,
 				head->name,
 				head->writer,
 				head->birthname,
 				head->birthtime,
 				head->flag,
-				head->outtime);
+				time);
 		}
 		else
 		{

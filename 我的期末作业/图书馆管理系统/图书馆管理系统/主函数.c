@@ -7,10 +7,6 @@ int main()
 	printf("\t\t\t\t\t\t文件读取中\n");
 	BookHead = GetBookInformation();
 	RecordHead = GetRecord();
-	if(RecordHead==NULL)
-	{
-		printf("111\n");
-	}
 	printf("\t\t\t\t\t\t文件读取成功!\n");
 	//登录注册板块
 
@@ -21,11 +17,16 @@ START:
 	int choice;
 	int power;
 	scanf("%d", &choice);
-	account* sir;
+	account* sir = NULL;
 	MainAccount* leader;
 	if (choice==1)
 	{
 		power=login(&sir,&leader);
+		if (sir==NULL)
+		{
+			printf("鬼啊，叉出去!\n");
+			return;
+		}
 	}
 	else
 	{

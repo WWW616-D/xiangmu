@@ -299,6 +299,7 @@ void BackBook(account* sir)
 			}
 		}
 	}
+	int dead = 1;
 	record* TempRecord;
 	temp->flag = 1;
 	(sir->getbook)--;
@@ -310,6 +311,7 @@ void BackBook(account* sir)
 	long long int OutTime = temp->outtime;
 	if (((OutTime-currenttime)/24/60/60)>=sir->day)
 	{
+		dead = 2;
 		printf("本次归还已逾期，已经记录在案，请以后按时归还:\n");
 		int day = (OutTime - currenttime) / 24 / 60 / 60 - sir->day + 1;
 		printf("本次逾期%d天,你需要缴纳罚金%d元", day, day* sir->pay);
@@ -327,57 +329,17 @@ void BackBook(account* sir)
 			sir->pay = 2 + sir->punish / 5;
 		}
 	}
-	temp->outtime = 0;
-	int recordid;
 	int bookid = temp->id;
-	if (RecordHead == NULL)
-	{
-		recordid = 10001;
-	}
-	else
-	{
-		TempRecord = RecordHead;
-		while (TempRecord->next != NULL)
-		{
-			TempRecord = TempRecord->next;
-		}
-		recordid = TempRecord->recordid + 1;
-	}
 	TempRecord = RecordHead;
 	while (TempRecord!=NULL)
 	{
-		if (!strcmp(TempRecord->time,outtime))
+		if (!strcmp(TempRecord->time,outtime)&&TempRecord->bookid==bookid)
 		{
 			strcpy(TempRecord->TrueBackTime, localtime);
+			TempRecord->flag = dead;
 			break;
 		}
 		TempRecord = TempRecord->next;
 	}
-
-	char TrueBackTime[32];
-	TrueBackTime[0] = '\0';
-	record* newrecord = (record*)malloc(sizeof(record));
-	newrecord->recordid = recordid;
-	newrecord->bookid = bookid;
-	strcpy(newrecord->name, temp->name);
-	newrecord->accountid = sir->id;
-	strcpy(newrecord->time, TempRecord->time);
-	strcpy(newrecord->ShouldBackTime, TempRecord->ShouldBackTime);
-	strcpy(newrecord->TrueBackTime, localtime);
-	newrecord->flag = 1;
-	newrecord->next = NULL;
-	if (RecordHead==NULL)
-	{
-		RecordHead = newrecord;
-	}
-	else
-	{
-		TempRecord = RecordHead;
-		while (TempRecord->next!=NULL)
-		{
-			TempRecord = TempRecord->next;
-		}
-		TempRecord->next = newrecord;
-	}
-	printf("记录添加完成\n");
+	printf("记录更改完成\n");
 }
