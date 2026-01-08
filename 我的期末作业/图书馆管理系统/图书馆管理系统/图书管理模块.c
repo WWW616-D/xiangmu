@@ -36,41 +36,59 @@ book* GetBookInformation()
 	return head;
 }
 
-void StorageBookInformation(book* head)
+void StorageBookInformation()
 {
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\books.txt", "w");
-	while (head!=NULL)
+	while (BookHead!=NULL)
 	{
 		fprintf(file, "%d|%s|%s|%s|%s|%d|%lld\n",
-				head->id,
-				head->name,
-				head->writer,
-				head->birthname,
-				head->birthtime, 
-				head->flag,
-				(long long)head->outtime);
-		head = head->next;
+				BookHead->id,
+				BookHead->name,
+				BookHead->writer,
+				BookHead->birthname,
+				BookHead->birthtime, 
+				BookHead->flag,
+				(long long)BookHead->outtime);
+		BookHead = BookHead->next;
 	}
+	fclose(file);
 }
 
 void AddBook()
 {
 	book* newbook = (book*)malloc(sizeof(book));
-	book* head = GetBookInformation();
-	newbook->id = head->id + 1;
+	book* temp = BookHead;
+	if (temp==NULL)
+	{
+		newbook->id = 10001;
+	}
+	else
+	{
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+		newbook->id = temp->id + 1;
+	}
 	printf("请依次输入这本书的书名，作者名，出版社名称，出版时间\n");
 	scanf("%s %s %s %s", newbook->name, newbook->writer, newbook->birthname, newbook->birthtime);
 	newbook->flag = 1;
 	newbook->outtime = 0;
-	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\books.txt", "a");
-	fprintf(file, "\n%d|%s|%s|%s|%s|%d|%lld",
-		newbook->id,
-		newbook->name,
-		newbook->writer,
-		newbook->birthname,
-		newbook->birthtime,
-		newbook->flag,
-		(long long)newbook->outtime);
+	newbook->next = NULL;
+	if (BookHead==NULL)
+	{
+		BookHead == newbook;
+	}
+	else
+	{
+		temp = BookHead;
+		while (temp->next!=NULL)
+		{
+			temp = temp->next;
+		}
+		temp->next = newbook;
+		
+	}
 	printf("添加完成\n");
 }
 
@@ -98,7 +116,7 @@ startinput:
 		goto startinput;
 	}
 
-	book* head = GetBookInformation();
+	book* head = BookHead;
 	book* result = NULL;
 	int id;
 	char name[32];

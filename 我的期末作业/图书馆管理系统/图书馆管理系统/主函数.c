@@ -1,10 +1,20 @@
 #include"library.h"
-account* boss = NULL;
+book* BookHead = NULL;
+record* RecordHead = NULL;
+account* AccountHead = NULL;
 int main()
 {
+	printf("\t\t\t\t\t\t文件读取中\n");
+	BookHead = GetBookInformation();
+	RecordHead = GetRecord();
+	if(RecordHead==NULL)
+	{
+		printf("111\n");
+	}
+	printf("\t\t\t\t\t\t文件读取成功!\n");
 	//登录注册板块
 
-on:
+START:
 
 	printf("\t\t\t\t\t\thello world\n");
 	printf("请输入数字对应您要进行的操作:\n1:登录\n2:注册新的账户\n");
@@ -26,7 +36,7 @@ on:
 		else
 			CreateNewMainAccount();
 		system("cls");
-		goto on;
+		goto START;
 	}
 	//管理员操作板块
 
@@ -35,33 +45,78 @@ on:
 
 	//读者操作模块
 
-control:
+CONTROL:
 
 	printf("请选择您需要的操作:\n1:查询图书\n2:借阅图书\n3:归还图书\n4:查看个人信息\n");
 	scanf("%d", &choice);
 	if (choice==1)
 	{
-	found:
+
+	FIND:
 
 		book* find=FindBook();
 		ShowBook(find,power);
-		printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面\n");
+		printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按4退出系统\n");
 		scanf("%d", &choice);
 		if (choice == 1)
 		{
-			goto found;
+			goto FIND;
 		}
 		else if (choice == 2)
 		{
-			goto control;
+			goto CONTROL;
 		}
 		else if (choice == 3)
 		{
-			goto on;
+			goto START;
 		}
 	}
-	if (choice==2)
+	else if (choice==2)
 	{
+
+	BORROW:
+
 		BorrowBook(sir);
+		printf("按1继续借书，按2回到选择操作界面，按3回到登录注册界面，按其他数字退出系统\n");
+		scanf("%d", &choice);
+		if (choice == 1)
+		{
+			goto BORROW;
+		}
+		else if (choice == 2)
+		{
+			goto CONTROL;
+		}
+		else if (choice == 3)
+		{
+			goto START;
+		}
 	}
+	else if (choice==3)
+	{
+
+	BACK:
+
+		BackBook(sir);
+		printf("按1继续还书，按2回到选择操作界面，按3回到登录注册界面，按4退出系统\n");
+		scanf("%d", &choice);
+		if (choice == 1)
+		{
+			goto BACK;
+		}
+		else if (choice == 2)
+		{
+			goto CONTROL;
+		}
+		else if (choice == 3)
+		{
+			goto START;
+		}
+	}
+	printf("\t\t\t\t\t\t开始存盘\n");
+	StorageBookInformation();
+	StorageRecord();
+	StorageAccount();
+	ShowRecord(RecordHead);
+	printf("存盘完成");
 }

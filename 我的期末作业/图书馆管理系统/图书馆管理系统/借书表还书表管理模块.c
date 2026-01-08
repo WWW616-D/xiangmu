@@ -1,39 +1,47 @@
 #include"library.h"
-BorrowRecord* GetBorrowRecord()
+record* GetRecord()
 {
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\借书记录.txt", "r");
-	BorrowRecord* head = NULL;
+	if (file==NULL)
+	{
+		printf("文件打开失败\n");
+	}
+	record* head = NULL;
+	record* tail = NULL;
 	char line[512];
 	while (fgets(line, sizeof(line), file))
 	{
-		BorrowRecord* record = (BorrowRecord*)malloc(sizeof(BorrowRecord));
-		record->next = NULL;
+		record* records = (record*)malloc(sizeof(record));
+		records->next = NULL;
 		if (sscanf(line, "%d|%d|%31[^|]|%d|%31[^|]|%31[^|]|%31[^|]|%d",
-			&record->recordid,
-			&record->bookid,
-			record->name,
-			&record->accountid,
-			record->time,
-			record->ShouldBackTime,
-			record->TrueBackTime,
-			&record->flag)!=8)
+			&records->recordid,
+			&records->bookid,
+			records->name,
+			&records->accountid,
+			records->time,
+			records->ShouldBackTime,
+			records->TrueBackTime,
+			&records->flag)!=8)
 		{
-			free(record);
+			free(records);
 			break;
 		}
 		if (head == NULL)
 		{
-			head = record;
+			printf("创建头节点\n");
+			head = records;
+			tail = records;
 		}
 		else
 		{
-			record->next = head;
-			head = record;
+			tail->next = records;
+			tail = records;
 		}
 	}
+	printf("你好");
 	return head;
 }
-void ShowBorrowRecord(BorrowRecord* head)
+void ShowRecord(record* head)
 {
 	while (head!=NULL)
 	{
@@ -45,4 +53,22 @@ void ShowBorrowRecord(BorrowRecord* head)
 			head->ShouldBackTime, head->TrueBackTime, head->flag);
 		head = head->next;
 	}
+}
+void StorageRecord()
+{
+	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\借书记录.txt", "w");
+	while (RecordHead!=NULL)
+	{
+		fprintf(file, "%d|%d|%s|%d|%s|%s|%s|%d\n",
+			RecordHead->recordid,
+			RecordHead->bookid,
+			RecordHead->name,
+			RecordHead->accountid,
+			RecordHead->time,
+			RecordHead->ShouldBackTime,
+			RecordHead->TrueBackTime, 
+			RecordHead->flag);
+		RecordHead = RecordHead->next;
+	}
+	fclose(file);
 }

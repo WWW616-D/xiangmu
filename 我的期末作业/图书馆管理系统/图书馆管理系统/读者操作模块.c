@@ -20,12 +20,11 @@ void BorrowBook(account* sir)
 		return;
 	}
 	int flag = 1;
-	book* head = GetBookInformation();
 	book* temp;
 	while (flag)
 	{
 		flag = 1;
-		temp = head;
+		temp = BookHead;
 		printf("请选择借书形式:\n1:查询id\n2:书名和作者名结合查询\n");
 		int choice;
 		scanf("%d", &choice);
@@ -36,7 +35,6 @@ void BorrowBook(account* sir)
 			scanf("%d", &id);
 			while (temp != NULL)
 			{
-				//printf("%d\n",temp->id);
 				if (id == temp->id)
 				{
 					printf("查询到书:\n");
@@ -128,7 +126,7 @@ void BorrowBook(account* sir)
 			}
 		}
 	}
-
+	printf("开始尝试借书\n");
 	temp->flag = 0;
 	(sir->getbook)++;
 
@@ -140,27 +138,246 @@ void BorrowBook(account* sir)
 	long long int backtime = currenttime + 24 * 60 * 60 * sir->day;
 	char ShouldBackTime[32];
 	GetTime(backtime, ShouldBackTime, sizeof(ShouldBackTime));
-	BorrowRecord* p = GetBorrowRecord();
 	int recordid;
 	int bookid = temp->id;
-	if (p == NULL)
+	record* TempRecord;
+	if (RecordHead == NULL)
 	{
 		recordid = 10001;
 	}
 	else
-		recordid = p->recordid + 1;
+	{
+		TempRecord = RecordHead;
+		while (TempRecord->next!=NULL)
+		{
+			TempRecord = TempRecord->next;
+		}
+		recordid = TempRecord->recordid + 1;
+	}
+	char TrueBackTime[32];
+	TrueBackTime[0] = '0';
+	TrueBackTime[1] = '\0';
+	record* newrecord = (record*)malloc(sizeof(record));
+	newrecord->recordid = recordid;
+	newrecord->bookid = bookid;
+	strcpy(newrecord->name, temp->name);
+	newrecord->accountid = sir->id;
+	strcpy(newrecord->time, localtime);
+	strcpy(newrecord->ShouldBackTime,ShouldBackTime);
+	strcpy(newrecord->TrueBackTime, TrueBackTime);
+	newrecord->flag = 0;
+	newrecord->next = NULL;
+	if (RecordHead == NULL)
+	{
+		RecordHead = newrecord;
+	}
+	else
+	{
+		TempRecord = RecordHead;
+		while (TempRecord->next != NULL)
+		{
+			TempRecord = TempRecord->next;
+		}
+		TempRecord->next = newrecord;
+	}
+	printf("记录添加完成\n");
+}
+void BackBook(account* sir)
+{
+	if (RecordHead==NULL)
+	{
+		printf("111\n");
+	}
+	if (sir->getbook == 0)
+	{
+		printf("你没有需要还的书\n");
+		return;
+	}
+	int flag = 1;
+	book* temp;
+	while (flag)
+	{
+		flag = 1;
+		temp = BookHead;
+		printf("请选择还书形式:\n1:提供id\n2:书名和作者名结合提供\n");
+		int choice;
+		scanf("%d", &choice);
+		if (choice == 1)
+		{
+			printf("请输入归还书的id:\n");
+			int id;
+			scanf("%d", &id);
+			while (temp != NULL)
+			{
+				//printf("%d\n",temp->id);
+				if (id == temp->id&&!temp->flag)
+				{
+					printf("查询到书:\n");
+					printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
+						temp->id,
+						temp->name,
+						temp->writer,
+						temp->birthname,
+						temp->birthtime,
+						temp->flag);
+					printf("输入0确认归还,输入2退出还书界面:\n");
+					scanf("%d", &flag);
+					if (flag == 2)
+					{
+						return;
+					}
+					break;
+				}
+				temp = temp->next;
+				if (temp == NULL)
+				{
+					printf("你要还的书不存在\n");
+					printf("输入2退出还书界面:除0外任意键继续\n");
+					scanf("%d", &flag);
+					if (flag == 2)
+					{
+						return;
+					}
+					if (flag == 0)
+					{
+						flag = 1;
+					}
+				}
+			}
+		}
+		if (choice == 2)
+		{
+			printf("请输入归还书的名字和作者名:\n");
+			char name[32];
+			char writer[50];
+			scanf("%s %s", name, writer);
+			while (temp != NULL)
+			{
+				if (!strcmp(name, temp->name) && !strcmp(writer, temp->writer)&&!temp->flag)
+				{
+					int decision = 0;
+					record* q = RecordHead;
+					while (q!=NULL)
+					{
+						if (q->bookid == temp->id)
+							decision = 1;
+					}
+					if (decision)
+					{
+						printf("查询到书:\n");
+						printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
+							temp->id,
+							temp->name,
+							temp->writer,
+							temp->birthname,
+							temp->birthtime,
+							temp->flag);
+						printf("输入0确认归还,输入2退出借书界面:\n");
+						scanf("%d", &flag);
+						if (flag == 2)
+						{
+							return;
+						}
+						break;
+					}
+				}
+				temp = temp->next;
+				if (temp == NULL)
+				{
+					printf("你要还的书不存在\n");
+					printf("输入2退出还书界面:除0外任意数字键继续\n");
+					scanf("%d", &flag);
+					if (flag == 2)
+					{
+						return;
+					}
+					if (flag == 0)
+					{
+						flag = 1;
+					}
+				}
+			}
+		}
+	}
+	record* TempRecord;
+	temp->flag = 1;
+	(sir->getbook)--;
+	long long int currenttime = time(NULL);
+	char localtime[32];
+	GetTime(currenttime, localtime, sizeof(localtime));
+	char outtime[32];
+	GetTime(temp->outtime, outtime, sizeof(outtime));
+	long long int OutTime = temp->outtime;
+	if (((OutTime-currenttime)/24/60/60)>=sir->day)
+	{
+		printf("本次归还已逾期，已经记录在案，请以后按时归还:\n");
+		int day = (OutTime - currenttime) / 24 / 60 / 60 - sir->day + 1;
+		printf("本次逾期%d天,你需要缴纳罚金%d元", day, day* sir->pay);
+		sir->punish++;
+		if (sir->privilege)
+		{
+			sir->maxbook = 30 - sir->punish / 3;
+			sir->day = 14 - sir->punish / 5;
+			sir->pay = 1 + sir->punish / 5;
+		}
+		else
+		{
+			sir->maxbook = 10 - sir->punish / 3;
+			sir->day = 7 - sir->punish / 5;
+			sir->pay = 2 + sir->punish / 5;
+		}
+	}
+	temp->outtime = 0;
+	int recordid;
+	int bookid = temp->id;
+	if (RecordHead == NULL)
+	{
+		recordid = 10001;
+	}
+	else
+	{
+		TempRecord = RecordHead;
+		while (TempRecord->next != NULL)
+		{
+			TempRecord = TempRecord->next;
+		}
+		recordid = TempRecord->recordid + 1;
+	}
+	TempRecord = RecordHead;
+	while (TempRecord!=NULL)
+	{
+		if (!strcmp(TempRecord->time,outtime))
+		{
+			strcpy(TempRecord->TrueBackTime, localtime);
+			break;
+		}
+		TempRecord = TempRecord->next;
+	}
+
 	char TrueBackTime[32];
 	TrueBackTime[0] = '\0';
-	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\借书记录.txt", "a");
-	fprintf(file, "%d|%d|%s|%d|%s|%s|%s|%d\n",
-		recordid,
-		bookid,
-		temp->name,
-		sir->id,
-		localtime,
-		ShouldBackTime,
-		TrueBackTime,0);
-	StorageBookInformation(head); 
-	StorageAccount();
-	fclose(file);
+	record* newrecord = (record*)malloc(sizeof(record));
+	newrecord->recordid = recordid;
+	newrecord->bookid = bookid;
+	strcpy(newrecord->name, temp->name);
+	newrecord->accountid = sir->id;
+	strcpy(newrecord->time, TempRecord->time);
+	strcpy(newrecord->ShouldBackTime, TempRecord->ShouldBackTime);
+	strcpy(newrecord->TrueBackTime, localtime);
+	newrecord->flag = 1;
+	newrecord->next = NULL;
+	if (RecordHead==NULL)
+	{
+		RecordHead = newrecord;
+	}
+	else
+	{
+		TempRecord = RecordHead;
+		while (TempRecord->next!=NULL)
+		{
+			TempRecord = TempRecord->next;
+		}
+		TempRecord->next = newrecord;
+	}
+	printf("记录添加完成\n");
 }

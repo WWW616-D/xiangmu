@@ -56,7 +56,7 @@ start:
 		account* p = GetAccounts(file);
 		if (p == NULL)
 			printf("111");
-		boss = p;
+		AccountHead = p;
 		char name[40];
 		char password[40];
 	a:
@@ -293,6 +293,7 @@ account* GetAccounts(FILE* file)
 			head = newnode;
 		}
 	}
+	AccountHead = head;
 	return head;
 }
 void CreateNewAccount()
@@ -418,13 +419,14 @@ void StorageAccount()
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\accounts.txt", "w");
 	char password[80];
 	
-	while (boss!=NULL)
+	while (AccountHead!=NULL)
 	{
 		memset(password, 0, sizeof(password));
-		change(boss->password, password);
-		fprintf(file, "%d %s %s ", boss->id, boss->name, password);
-		fprintf(file, "%d %d ", boss->maxbook, boss->getbook);
-		fprintf(file, "%d %d %d %d\n", boss->pay, boss->punish, boss->privilege, boss->day);
-		boss = boss->next;
+		change(AccountHead->password, password);
+		fprintf(file, "%d %s %s ", AccountHead->id, AccountHead->name, password);
+		fprintf(file, "%d %d ", AccountHead->maxbook, AccountHead->getbook);
+		fprintf(file, "%d %d %d %d\n", AccountHead->pay, AccountHead->punish, AccountHead->privilege, AccountHead->day);
+		AccountHead = AccountHead->next;
 	}
+	fclose(file);
 }

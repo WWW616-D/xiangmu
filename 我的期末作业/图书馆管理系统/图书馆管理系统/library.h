@@ -46,14 +46,16 @@ typedef struct BorrowRecord
 	char TrueBackTime[32];
 	int flag;
 	struct BorrowRecord* next;
-}BorrowRecord;
+}record;
 enum SearchType {
 	BY_ID = 1,
 	BY_NAME,
 	BY_WRITER,
 	BY_BIRTHNAME
 };
-extern account* boss;
+extern account* AccountHead;
+extern book* BookHead;
+extern record* RecordHead;
 void CreateNewAccount();
 void CreateNewMainAccount();
 MainAccount* GetMainAccounts(FILE* file);
@@ -62,12 +64,15 @@ int login();
 void change(char* str, int length, char* out);
 void back(char* str, char* out);
 book* GetBookInformation();
-void StorageBookInformation(book* head);
+void StorageBookInformation();
 void AddBook();
 enum SearchType GetSearchType(char* input);
 book* FindBook();
 void ShowBook(book* head, int power);
 void BorrowBook(account* sir);
-BorrowRecord* GetBorrowRecord();
-void ShowBorrowRecord(BorrowRecord* head);
+record* GetRecord();
+void ShowRecord(record* head);
+void StorageAccount();
+void StorageRecord();
+void BackBook(account* sir);
 void StorageAccount();
