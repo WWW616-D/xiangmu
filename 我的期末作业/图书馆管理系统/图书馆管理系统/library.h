@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4098)
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,11 +22,11 @@ typedef struct account
 	int id;
 	char name[40];
 	char password[40];
-	char maxbook;
-	char getbook;
+	int maxbook;
+	int getbook;
 	int pay;
 	int punish;
-	char privilege;
+	int privilege;
 	int day;
 	struct account* next;
 }account;
@@ -53,13 +54,21 @@ enum SearchType {
 	BY_WRITER,
 	BY_BIRTHNAME
 };
+enum SearchRecordType
+{
+	BY_RECORDID = 1,
+	BY_BOOKNAME,
+	BY_USERID,
+	BY_OUTTIME,
+	BY_BACKTIME
+};
 extern account* AccountHead;
 extern book* BookHead;
 extern record* RecordHead;
 void CreateNewAccount();
 void CreateNewMainAccount();
 MainAccount* GetMainAccounts(FILE* file);
-account* GetAccounts(FILE* file);
+account* GetAccounts();
 int login();
 void change(char* str, int length, char* out);
 void back(char* str, char* out);
@@ -78,4 +87,8 @@ void BackBook(account* sir);
 void StorageAccount();
 void CleanStdin();
 void GetTime(long long int times, char* buffer, int buffer_size);
+record* FindRecord(int power, account* sir);
+account* FindAccount(int power, account* acc);
+void ShowAccount(account* head);
+void Punish();
 

@@ -63,7 +63,7 @@ void BorrowBook(account* sir)
 				if (temp == NULL)
 				{
 					printf("你要找的书不存在\n");
-					printf("输入2退出借书界面:除0外任意键继续\n");
+					printf("输入2退出借书界面:除0外任意数字键继续\n");
 					scanf("%d", &flag);
 					if (flag == 2)
 					{
@@ -195,6 +195,7 @@ void BackBook(account* sir)
 	}
 	int flag = 1;
 	book* temp;
+	int desition = 0;
 	while (flag)
 	{
 		flag = 1;
@@ -255,14 +256,20 @@ void BackBook(account* sir)
 			{
 				if (!strcmp(name, temp->name) && !strcmp(writer, temp->writer)&&!temp->flag)
 				{
-					int decision = 0;
+					
 					record* q = RecordHead;
 					while (q!=NULL)
 					{
-						if (q->bookid == temp->id)
-							decision = 1;
+						if (q->bookid == temp->id&&q->accountid==sir->id)
+						{
+							desition = 1;
+							if (q->flag==2)
+							{
+								desition = 2;
+							}
+						}
 					}
-					if (decision)
+					if (desition)
 					{
 						printf("查询到书:\n");
 						printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
@@ -302,6 +309,7 @@ void BackBook(account* sir)
 	int dead = 1;
 	record* TempRecord;
 	temp->flag = 1;
+	temp->outtime = 0;
 	(sir->getbook)--;
 	long long int currenttime = time(NULL);
 	char localtime[32];
@@ -312,21 +320,30 @@ void BackBook(account* sir)
 	if (((OutTime-currenttime)/24/60/60)>=sir->day)
 	{
 		dead = 2;
-		printf("本次归还已逾期，已经记录在案，请以后按时归还:\n");
-		int day = (OutTime - currenttime) / 24 / 60 / 60 - sir->day + 1;
-		printf("本次逾期%d天,你需要缴纳罚金%d元", day, day* sir->pay);
-		sir->punish++;
-		if (sir->privilege)
+		printf("本次归还已逾期，请以后按时归还:\n");
+		if (desition == 1)
 		{
-			sir->maxbook = 30 - sir->punish / 3;
-			sir->day = 14 - sir->punish / 5;
-			sir->pay = 1 + sir->punish / 5;
+			printf("本次逾期尚未处罚，现在开始:\n");
+			int day = (OutTime - currenttime) / 24 / 60 / 60 - sir->day + 1;
+			printf("本次逾期%d天,你需要缴纳罚金%d元", day, day * sir->pay);
+			sir->punish++;
+			printf("正在记录您的更改数据:\n");
+			if (sir->privilege)
+			{
+				sir->maxbook = 30 - sir->punish / 3;
+				sir->day = 14 - sir->punish / 5;
+				sir->pay = 1 + sir->punish / 5;
+			}
+			else
+			{
+				sir->maxbook = 10 - sir->punish / 3;
+				sir->day = 7 - sir->punish / 5;
+				sir->pay = 2 + sir->punish / 5;
+			}
 		}
-		else
+		else if(desition==2)
 		{
-			sir->maxbook = 10 - sir->punish / 3;
-			sir->day = 7 - sir->punish / 5;
-			sir->pay = 2 + sir->punish / 5;
+			printf("本次逾期已在先前由管理员登记处罚，请关注您的数据变动并确保已处理罚单\n");
 		}
 	}
 	int bookid = temp->id;
@@ -342,4 +359,71 @@ void BackBook(account* sir)
 		TempRecord = TempRecord->next;
 	}
 	printf("记录更改完成\n");
+}
+void Punish()
+{
+	printf("开始查找逾期记录:\n");
+	record* TempRecordHead = RecordHead;
+	int flag = 1;
+	while (TempRecordHead!=NULL)
+	{
+		if (TempRecordHead->flag==0)
+		{
+			int bookid = TempRecordHead->bookid;
+			long long int currenttime = time(NULL);
+			int accountid = TempRecordHead->accountid;
+			int day;
+			long long int outtime;
+			book* TempBookHead = BookHead;
+			while (TempBookHead!=NULL)
+			{
+				if (TempBookHead->id == bookid)
+					break;
+				TempBookHead = TempBookHead->next;
+			}
+			outtime = TempBookHead->outtime;
+			int ThroughDay = (currenttime - outtime) / 24 / 60 / 60;
+			if (ThroughDay>=7)
+			{
+				account* TempAccountHead = AccountHead;
+				while (TempAccountHead != NULL)
+				{
+					if (TempAccountHead->id == accountid)
+						break;
+					TempAccountHead = TempAccountHead->next;
+				}
+				if (ThroughDay>=TempAccountHead->day)
+				{
+					printf("查询到逾期且未归还书本:\n");
+					printf("流水编号: %d | 图书ID: %d | 书名: %s\n",
+						TempRecordHead->recordid, TempRecordHead->bookid, TempRecordHead->name);
+					printf("借书人账户ID: %d | 借出时间: %s\n",
+						TempRecordHead->accountid, TempRecordHead->time);
+					printf("应还时间: %s | 实还时间: %s | : %d\n",
+						TempRecordHead->ShouldBackTime, TempRecordHead->TrueBackTime, TempRecordHead->flag);
+					printf("现在开始处罚\n");
+					TempAccountHead->punish++;
+					if (TempAccountHead->privilege)
+					{
+						TempAccountHead->maxbook = 30 - TempAccountHead->punish / 3;
+						TempAccountHead->day = 14 - TempAccountHead->punish / 5;
+						TempAccountHead->pay = 1 + TempAccountHead->punish / 5;
+					}
+					else
+					{
+						TempAccountHead->maxbook = 10 - TempAccountHead->punish / 3;
+						TempAccountHead->day = 7 - TempAccountHead->punish / 5;
+						TempAccountHead->pay = 2 + TempAccountHead->punish / 5;
+					}
+					printf("账户数据已更改,且该用户需要缴纳%d罚金\n", ThroughDay * (TempAccountHead->pay));
+					flag = 0;
+				}
+			}
+		}
+		TempRecordHead = TempRecordHead->next;
+	}
+	if (flag)
+	{
+		printf("未查询到逾期未还书记录\n");
+	}
 }

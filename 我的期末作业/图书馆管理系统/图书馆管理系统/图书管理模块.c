@@ -109,7 +109,7 @@ book* FindBook()
 
 startinput:
 
-	printf("请输入查找方式:\n1:编号\n2:书名\n3:作者\n4:出版社\n");
+	printf("请输入查找方式:\n1:编号范围\n2:书名\n3:作者\n4:出版社\n");
 	scanf("%s", input);
 	enum SearchType type = GetSearchType(input);
 	if (type==0)
@@ -120,14 +120,18 @@ startinput:
 
 	book* head = BookHead;
 	book* result = NULL;
-	int id;
+	int IdDown;
+	int IdUp;
 	char name[32];
 	char writer[50];
 	char birthname[50];
 	if (type == BY_ID)
 	{
-		printf("请输入你要查找的id:\n");
-		scanf("%d", &id);
+		printf("你将输入id范围来查询一些书，如果你仅想查询一本，输入相同的下界和上界即可\n");
+		printf("请输入你要查找的id下界:\n");
+		scanf("%d", &IdDown);
+		printf("请输入你要查找的id上界:\n");
+		scanf("%d", &IdUp);
 	}
 	else if (type == BY_NAME)
 	{
@@ -148,7 +152,7 @@ startinput:
 	{
 		if (type==BY_ID)
 		{
-			if (id==head->id)
+			if (IdDown<=head->id&&head->id<=IdUp)
 			{
 				book* newnode = (book*)malloc(sizeof(book));
 				memcpy(newnode, head, sizeof(book));
@@ -262,4 +266,152 @@ void ShowBook(book* head,int power)
 		}
 		head = head->next;
 	}
+}
+void ChangeBook()
+{
+
+START:
+	int choice;
+	printf("按1开始操作,按其他数字退出\n");
+	scanf("%d", &choice);
+	if (choice != 1)
+		return;
+	book* temp = BookHead;
+	printf("你要查找你想修改(删除)的书,请选择查找书形式:\n1:查询id\n2:书名和作者名结合查询\n");
+	scanf("%d", &choice);
+	int flag = 0;
+	if (choice == 1)
+	{
+		printf("请输入书的id:\n");
+		int id;
+		scanf("%d", &id);
+		while (temp != NULL)
+		{
+			if (id == temp->id)
+			{
+				printf("查询到书:\n");
+				printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
+					temp->id,
+					temp->name,
+					temp->writer,
+					temp->birthname,
+					temp->birthtime,
+					temp->flag);
+				printf("输入0确认开始更改,输入2退出界面:\n");
+				scanf("%d", &flag);
+				if (flag == 2)
+				{
+					return;
+				}
+				break;
+			}
+			temp = temp->next;
+			if (temp == NULL)
+			{
+				printf("你要找的书不存在\n");
+				printf("输入2退出界面:除0外任意数字键继续\n");
+				scanf("%d", &flag);
+				if (flag == 2)
+				{
+					return;
+				}
+			}
+		}
+	}
+	else if (choice == 2)
+	{
+		printf("请输入书的名字和作者名:\n");
+		char name[32];
+		char writer[50];
+		scanf("%s %s", name, writer);
+		while (temp != NULL)
+		{
+			if (!strcmp(name, temp->name) && !strcmp(writer, temp->writer))
+			{
+				printf("查询到书:\n");
+				printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
+					temp->id,
+					temp->name,
+					temp->writer,
+					temp->birthname,
+					temp->birthtime,
+					temp->flag);
+				printf("输入0确认开始更改,输入2退出借书界面:\n");
+				scanf("%d", &flag);
+				if (flag == 2)
+				{
+					return;
+				}
+				break;
+			}
+			temp = temp->next;
+			if (temp == NULL)
+			{
+				printf("你要找的书不存在\n");
+				printf("输入2退出界面:除0外任意数字键继续\n");
+				scanf("%d", &flag);
+				if (flag == 2)
+				{
+					return;
+				}
+			}
+		}
+	}
+	printf("请选择你要进行的操作\n1:修改书籍信息\n2:将其出库\n3:返回上一级");
+	scanf("%d", &choice);
+	if (choice == 1)
+	{
+
+	CHANGE:
+
+		printf("请选择修改内容\n1:书籍名称\n2:作者名称\n3:出版社名称\n4:出版日期\n");
+		char Get[50];
+		scanf("%d", &choice);
+		printf("请输入你要修改为什么:\n");
+		scanf("%s", Get);
+		printf("按1确认，其他数字返回上一级\n");
+		int ok;
+		scanf("%d", &ok);
+		if (ok == 1)
+		{
+			if (choice == 1)
+			{
+				strcpy(temp->name, Get);
+			}
+			else if (choice == 2)
+			{
+				strcpy(temp->writer, Get);
+			}
+			else if (choice == 3)
+			{
+				strcpy(temp->birthname, Get);
+			}
+			else if (choice == 4)
+			{
+				strcpy(temp->birthtime, Get);
+			}
+			printf("更改成功!\n");
+			printf("按1继续操作,其他数字返回\n");
+			scanf("%d", &choice);
+			if (choice == 1)
+			{
+				goto START;
+			}
+		}
+		else
+			goto CHANGE;
+	}
+	else if (choice == 2)
+	{
+		temp->flag = 0;
+		printf("该书已出库!\n");
+		printf("按1继续操作,其他数字返回\n");
+		scanf("%d", &choice);
+		if (choice == 1)
+		{
+			goto START;
+		}
+	}
+	else
+		goto START;
 }

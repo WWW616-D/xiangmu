@@ -261,42 +261,7 @@ void CreateNewMainAccount()
 	change(new_mainaccount->password, password);
 	fprintf(write_file, "%s,%s\n", new_mainaccount->name, password);
 }
-account* GetAccounts(FILE* file)
-{
-	account* head = NULL;
-	char password[80];
-	char line[256]
-	fgets(line, sizeof(line), file);
-	while (fgets(line, sizeof(line), file))
-	{
-		account* newnode = (account*)malloc(sizeof(account));
-		newnode->next = NULL;
-		if (sscanf(line, "%d %s %s %d %d %d %d %d %d",
-			&newnode->id,newnode->name,password,
-			&newnode->maxbook,
-			&newnode->getbook,
-			&newnode->pay,
-			&newnode->punish,
-			&newnode->privilege,
-			&newnode->day) != 9)
-		{
-			free(newnode);
-			break;
-		}
-		back(password, newnode->password);
-		if (head == NULL)
-		{
-			head = newnode;
-		}
-		else
-		{
-			newnode->next = head;
-			head = newnode;
-		}
-	}
-	AccountHead = head;
-	return head;
-}
+
 void CreateNewAccount()
 {
 
@@ -376,10 +341,9 @@ a:
 	CleanStdin();
 	printf("请输入你的用户名;(8到16个字符)\n");
 	scanf_s("%s", new_account->name,sizeof(new_account->name));
-	CleanStdin();;
 	printf("请输入你的密码;(8到16个字符)\n");
 	ScanfPassword(new_account->password, sizeof(new_account->password));
-	printf("请再次确认您的密码:");
+	printf("请再次确认您的密码:\n");
 	char PassWord[20];
 	ScanfPassword(PassWord, sizeof(PassWord));
 	if (strcmp(PassWord,new_account->password)!=0)
@@ -387,7 +351,7 @@ a:
 		printf("您两次输入的密码不一致，请再次输入!\n");
 		goto a;
 	}
-	account* p = GetAccounts(file);
+	account* p = AccountHead;
 	account* head = p;
 	while (p!=NULL)
 	{
@@ -398,30 +362,26 @@ a:
 		}
 		p = p->next;
 	}
-	while (head != NULL)
-	{
-		account* temp = head;
-		head = head->next;
-		free(temp);
-	}
 	if (strlen(new_account->password)>16||strlen(new_account->name) > 16||strlen(new_account->password) < 8 || strlen(new_account->name) < 8)
 	{
 		printf("您的用户名或密码不符合限定长度  请重新输入\n");
 		goto a;
 	}
 	printf("欢迎你%s\n", new_account->name);
-
 	//加密与写入
-
-	char password[80];
-	change(new_account->password,password);
 	fclose(file);
 	FILE* write_file;
-	write_file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\accounts.txt", "a");
-	fprintf(write_file,"%d %s %s ",new_account->id,new_account->name,password);
-	fprintf(write_file, "%d %d ", new_account->maxbook, new_account->getbook);
-	fprintf(write_file, "%d %d %d %d\n", new_account->pay, new_account->punish, new_account->privilege, new_account->day);
-	fclose(write_file);
+	new_account->next = NULL;
+	if (AccountHead==NULL)
+	{
+		AccountHead = new_account;
+	}
+	else 
+	{
+		new_account->next = AccountHead;
+		AccountHead = new_account;
+	}
+	StorageAccount();
 	numfile = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\id.txt", "w");
 	fprintf(numfile, "%d", nextid);
 	fclose(numfile);
@@ -430,15 +390,16 @@ void StorageAccount()
 {
 	FILE* file = fopen("D:\\代码\\我的期末作业\\图书馆管理系统\\accounts.txt", "w");
 	char password[80];
+	account* head = AccountHead;
 	fprintf(file, "用户编号 | 用户名 | 用户密码 | 最大借书数 | 已经借书数目 | 超额赔付(元/天) | 违规次数 | 是否有特权 | 可借天数\n");
-	while (AccountHead!=NULL)
+	while (head!=NULL)
 	{
 		memset(password, 0, sizeof(password));
-		change(AccountHead->password, password);
-		fprintf(file, "%d %s %s ", AccountHead->id, AccountHead->name, password);
-		fprintf(file, "%d %d ", AccountHead->maxbook, AccountHead->getbook);
-		fprintf(file, "%d %d %d %d\n", AccountHead->pay, AccountHead->punish, AccountHead->privilege, AccountHead->day);
-		AccountHead = AccountHead->next;
+		change(head->password, password);
+		fprintf(file, "%d %s %s ", head->id, head->name, password);
+		fprintf(file, "%d %d ", head->maxbook, head->getbook);
+		fprintf(file, "%d %d %d %d\n", head->pay, head->punish, head->privilege, head->day);
+		head = head->next;
 	}
 	fclose(file);
 }
