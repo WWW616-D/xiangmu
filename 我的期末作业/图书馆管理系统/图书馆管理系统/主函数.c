@@ -133,8 +133,17 @@ START:
 		{
 		ADFINDBOOK:
 			;
-			book* BookFind = FindBook();
-			ShowBook(BookFind, power);
+			printf("按1浏览图书库，按其他则按照条件查询图书:\n");
+			scanf("%s", choice);
+			if (!strcmp(choice, "1"))
+			{
+				ShowBook(BookHead, power);
+			}
+			else
+			{
+				book* BookFind = FindBook();
+				ShowBook(BookFind, power);
+			}
 			printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
 			if (!strcmp(choice, "1"))
@@ -169,8 +178,17 @@ START:
 
 		FINDBOOK:
 			;
-			book* BookFind = FindBook();
-			ShowBook(BookFind, power);
+			printf("按1浏览图书库，按其他则按照条件查询图书:\n");
+			scanf("%s", choice);
+			if (!strcmp(choice,"1"))
+			{
+				ShowBook(BookHead, power);
+			}
+			else
+			{
+				book* BookFind = FindBook();
+				ShowBook(BookFind, power);
+			}
 			printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
 			if (!strcmp(choice, "1"))
@@ -230,7 +248,16 @@ START:
 		}
 		else if (!strcmp(choice, "4"))
 		{
-			FindAccount(power,sir);
+			printf("按1查询个人账户信息,按其他查询个人相关借书记录:\n");
+			scanf("%s", choice);
+			if (!strcmp(choice,"1"))
+				FindAccount(power,sir);
+			else
+			{
+				record* RecordFind=FindRecord(power, sir);
+				ShowRecord(RecordFind);
+			}
+
 			printf("按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
 			if (!strcmp(choice, "2"))

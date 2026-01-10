@@ -210,24 +210,39 @@ void BackBook(account* sir)
 			scanf("%d", &id);
 			while (temp != NULL)
 			{
-				//printf("%d\n",temp->id);
 				if (id == temp->id&&!temp->flag)
 				{
-					printf("查询到书:\n");
-					printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
-						temp->id,
-						temp->name,
-						temp->writer,
-						temp->birthname,
-						temp->birthtime,
-						temp->flag);
-					printf("输入0确认归还,输入2退出还书界面:\n");
-					scanf("%d", &flag);
-					if (flag == 2)
+					record* q = RecordHead;
+					while (q != NULL)
 					{
-						return;
+						if (q->bookid == temp->id && q->accountid == sir->id)
+						{
+							desition = 1;
+							if (q->flag == 2)
+							{
+								desition = 2;
+							}
+						}
+						q = q->next;
 					}
-					break;
+					if (desition)
+					{
+						printf("查询到书:\n");
+						printf("编号:%d|书名:%s|作者名:%s|出版社:%s|出版时间:%s|是否在库:%d\n",
+							temp->id,
+							temp->name,
+							temp->writer,
+							temp->birthname,
+							temp->birthtime,
+							temp->flag);
+						printf("输入0确认归还,输入2退出还书界面:\n");
+						scanf("%d", &flag);
+						if (flag == 2)
+						{
+							return;
+						}
+						break;
+					}
 				}
 				temp = temp->next;
 				if (temp == NULL)
@@ -246,7 +261,7 @@ void BackBook(account* sir)
 				}
 			}
 		}
-		if (choice == 2)
+		else if (choice == 2)
 		{
 			printf("请输入归还书的名字和作者名:\n");
 			char name[32];
@@ -268,6 +283,7 @@ void BackBook(account* sir)
 								desition = 2;
 							}
 						}
+						q = q->next;
 					}
 					if (desition)
 					{
@@ -309,7 +325,6 @@ void BackBook(account* sir)
 	int dead = 1;
 	record* TempRecord;
 	temp->flag = 1;
-	temp->outtime = 0;
 	(sir->getbook)--;
 	long long int currenttime = time(NULL);
 	char localtime[32];
@@ -317,27 +332,30 @@ void BackBook(account* sir)
 	char outtime[32];
 	GetTime(temp->outtime, outtime, sizeof(outtime));
 	long long int OutTime = temp->outtime;
-	if (((OutTime-currenttime)/24/60/60)>=sir->day)
+	temp->outtime = 0;
+	printf("当前时间戳为%d,借书时间戳为%d\n", currenttime, OutTime);
+	printf("距离你借书过了%d天\n",(currenttime - OutTime) / (24 * 60 * 60));
+	if (((currenttime-OutTime)/24/60/60)>=sir->day)
 	{
 		dead = 2;
 		printf("本次归还已逾期，请以后按时归还:\n");
 		if (desition == 1)
 		{
 			printf("本次逾期尚未处罚，现在开始:\n");
-			int day = (OutTime - currenttime) / 24 / 60 / 60 - sir->day + 1;
+			int day = (OutTime - currenttime) / (24 * 60 * 60) - sir->day + 1;
 			printf("本次逾期%d天,你需要缴纳罚金%d元", day, day * sir->pay);
 			sir->punish++;
 			printf("正在记录您的更改数据:\n");
 			if (sir->privilege)
 			{
 				sir->maxbook = 30 - sir->punish / 3;
-				sir->day = 14 - sir->punish / 5;
+				//sir->day = 14 - sir->punish / 5;
 				sir->pay = 1 + sir->punish / 5;
 			}
 			else
 			{
 				sir->maxbook = 10 - sir->punish / 3;
-				sir->day = 7 - sir->punish / 5;
+				//sir->day = 7 - sir->punish / 5;
 				sir->pay = 2 + sir->punish / 5;
 			}
 		}
@@ -382,8 +400,9 @@ void Punish()
 				TempBookHead = TempBookHead->next;
 			}
 			outtime = TempBookHead->outtime;
-			int ThroughDay = (currenttime - outtime) / 24 / 60 / 60;
-			if (ThroughDay>=7)
+			int ThroughDay = (currenttime - outtime) / (24 * 60 * 60);
+			printf("%d", ThroughDay);
+			if (ThroughDay>=0)
 			{
 				account* TempAccountHead = AccountHead;
 				while (TempAccountHead != NULL)
@@ -412,11 +431,12 @@ void Punish()
 					else
 					{
 						TempAccountHead->maxbook = 10 - TempAccountHead->punish / 3;
-						TempAccountHead->day = 7 - TempAccountHead->punish / 5;
+						//TempAccountHead->day = 7 - TempAccountHead->punish / 5;
 						TempAccountHead->pay = 2 + TempAccountHead->punish / 5;
 					}
 					printf("账户数据已更改,且该用户需要缴纳%d罚金\n", ThroughDay * (TempAccountHead->pay));
 					flag = 0;
+					TempRecordHead->flag = 2;
 				}
 			}
 		}

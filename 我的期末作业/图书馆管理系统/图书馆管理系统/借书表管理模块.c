@@ -82,7 +82,7 @@ record* FindRecord(int power,account* sir)
 	}
 	else
 	{
-		printf("现在为你展示你的借书记录:");
+		printf("现在为你展示你的借书记录:\n");
 		type = BY_USERID;
 	}
 	record* head = RecordHead;
