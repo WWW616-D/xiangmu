@@ -567,7 +567,7 @@ int float_const(const char* str, int s, uint8_t* result, enum floatize ffmt)  //
     return 1;                   /* success */
 }
 
-int main(int argc, char** argv)
+int main_111(int argc, char** argv)
 {
     int i = 0;
     char* number = "1.05";            //0.105* 10^1

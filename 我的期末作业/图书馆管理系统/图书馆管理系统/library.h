@@ -1,6 +1,8 @@
 #pragma once
 #pragma warning(disable: 4098)
 #include <stdio.h>
+#include <windows.h>
+#pragma comment(lib, "kernel32.lib")
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
@@ -28,6 +30,7 @@ typedef struct account
 	int punish;
 	int privilege;
 	int day;
+	long long int phone;
 	struct account* next;
 }account;
 typedef struct mainaccount
@@ -91,4 +94,5 @@ record* FindRecord(int power, account* sir);
 account* FindAccount(int power, account* acc);
 void ShowAccount(account* head);
 void Punish();
+void ShowWelcomeScreen();
 

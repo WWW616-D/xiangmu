@@ -129,8 +129,6 @@ void BorrowBook(account* sir)
 	printf("开始尝试借书\n");
 	temp->flag = 0;
 	(sir->getbook)++;
-
-
 	long long int currenttime = time(NULL);
 	temp->outtime = currenttime;
 	char localtime[32];
@@ -325,7 +323,6 @@ void BackBook(account* sir)
 	int dead = 1;
 	record* TempRecord;
 	temp->flag = 1;
-	(sir->getbook)--;
 	long long int currenttime = time(NULL);
 	char localtime[32];
 	GetTime(currenttime, localtime, sizeof(localtime));
@@ -333,7 +330,7 @@ void BackBook(account* sir)
 	GetTime(temp->outtime, outtime, sizeof(outtime));
 	long long int OutTime = temp->outtime;
 	temp->outtime = 0;
-	printf("当前时间戳为%d,借书时间戳为%d\n", currenttime, OutTime);
+	sir->getbook--;
 	printf("距离你借书过了%d天\n",(currenttime - OutTime) / (24 * 60 * 60));
 	if (((currenttime-OutTime)/24/60/60)>=sir->day)
 	{
@@ -343,7 +340,7 @@ void BackBook(account* sir)
 		{
 			printf("本次逾期尚未处罚，现在开始:\n");
 			int day = (OutTime - currenttime) / (24 * 60 * 60) - sir->day + 1;
-			printf("本次逾期%d天,你需要缴纳罚金%d元", day, day * sir->pay);
+			printf("本次逾期%d天,你需要缴纳罚金%d元\n", day, day * sir->pay);
 			sir->punish++;
 			printf("正在记录您的更改数据:\n");
 			if (sir->privilege)
@@ -358,10 +355,14 @@ void BackBook(account* sir)
 				//sir->day = 7 - sir->punish / 5;
 				sir->pay = 2 + sir->punish / 5;
 			}
+			printf("您当前的罚款单价为%d,当前的借书额度为%d\n",sir->pay, sir->maxbook);
 		}
 		else if(desition==2)
 		{
-			printf("本次逾期已在先前由管理员登记处罚，请关注您的数据变动并确保已处理罚单\n");
+			int day = (OutTime - currenttime) / (24 * 60 * 60) - sir->day + 1;
+			printf("本次逾期%d天,你需要缴纳罚金%d元\n", day, day* sir->pay);
+			printf("您当前的罚款单价为%d,当前的借书额度为%d\n", sir->pay, sir->maxbook);
+			printf("本次逾期已在先前由管理员登记处罚，请关注您的数据变动，处理罚单,日后主动归还图书!\n");
 		}
 	}
 	int bookid = temp->id;
@@ -434,7 +435,7 @@ void Punish()
 						//TempAccountHead->day = 7 - TempAccountHead->punish / 5;
 						TempAccountHead->pay = 2 + TempAccountHead->punish / 5;
 					}
-					printf("账户数据已更改,且该用户需要缴纳%d罚金\n", ThroughDay * (TempAccountHead->pay));
+					printf("账户数据已更改,且该用户现在已经需要缴纳%d罚金，具体金额待定\n该用户的手机号为%lld,您可催促归还图书\n", (ThroughDay+1) * (TempAccountHead->pay), TempAccountHead->phone);
 					flag = 0;
 					TempRecordHead->flag = 2;
 				}

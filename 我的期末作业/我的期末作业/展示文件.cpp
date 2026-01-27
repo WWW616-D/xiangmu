@@ -26,6 +26,8 @@ int main()
 	printf("输入1继续观看,输入0退出:\n");
 	int next;
 	scanf("%d", &next);
+	system("cls");
 	if (next)
 		goto a;
+	return 0;
 }

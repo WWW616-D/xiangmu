@@ -233,4 +233,5 @@ void EightQueensShow()
 		}
 		EndDrawing();
 	}
+	CloseWindow();
 }

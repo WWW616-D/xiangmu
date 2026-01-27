@@ -11,18 +11,19 @@ account* GetAccounts()
 		account* newnode = (account*)malloc(sizeof(account));
 		newnode->next = NULL;
 		memset(newnode, 0, sizeof(account));
-		if (sscanf(line, "%d %s %s %d %d %d %d %d %d",
+		if (sscanf(line, "%d %s %s %d %d %d %d %d %d %lld",
 			&newnode->id, newnode->name, password,
 			&newnode->maxbook,
 			&newnode->getbook,
 			&newnode->pay,
 			&newnode->punish,
 			&newnode->privilege,
-			&newnode->day) != 9)
+			&newnode->day,&newnode->phone) != 10)
 		{
 			free(newnode);
 			break;
 		}
+		newnode->phone -= 886114514;
 		back(password, newnode->password);
 		if (head == NULL)
 		{
@@ -41,10 +42,10 @@ void ShowAccount(account* head)
 {
 	while (head!=NULL)
 	{
-		printf("账户ID:%d 用户名:%s 密码:%s 最大借书:%d 已借书:%d罚款标准:%d 违规次数:%d 特权:%d 可借天数:%d\n",
+		printf("账户ID:%d 用户名:%s 密码:%s 最大借书:%d 已借书:%d罚款标准:%d 违规次数:%d 特权:%d 可借天数:%d 电话号码:%lld\n",
 			head->id, head->name, head->password,
 			head->maxbook, head->getbook, head->pay,
-			head->punish, head->privilege, head->day);
+			head->punish, head->privilege, head->day,head->phone);
 		printf("\n");
 		head = head->next;
 	}
@@ -62,7 +63,6 @@ account* FindAccount(int power,account* acc)
 		printf("请输入你要查找的id上界:\n");
 		scanf("%d", &IdUp);
 		account* head = AccountHead;
-		
 		while (head != NULL)
 		{
 			if (IdDown <= head->id && head->id <= IdUp)
@@ -80,14 +80,15 @@ account* FindAccount(int power,account* acc)
 					result = newnode;
 				}
 			}
+			head = head->next;
 		}
 	}
 	else
 	{
 		printf("现在展示您的用户信息:\n");
-		printf("账户ID:%d 用户名:%s 密码:%s 最大借书:%d 已借书:%d 赔付标准:%d 违规次数:%d 特权等级:%d 可借天数:%d\n",
+		printf("账户ID:%d 用户名:%s 密码:%s 最大借书:%d 已借书:%d 赔付标准:%d 违规次数:%d 特权等级:%d 可借天数:%d 电话号码:%lld\n",
 			acc->id, acc->name, acc->password, acc->maxbook, acc->getbook, 
-			acc->pay, acc->punish, acc->privilege, acc->day);
+			acc->pay, acc->punish, acc->privilege, acc->day ,acc->phone);
 	}
 	
 	return result;

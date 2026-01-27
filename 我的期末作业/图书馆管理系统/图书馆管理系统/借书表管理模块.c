@@ -48,7 +48,7 @@ void ShowRecord(record* head)
 			head->recordid, head->bookid, head->name);
 		printf("借书人账户ID: %d | 借出时间: %s\n",
 			head->accountid, head->time);
-		printf("应还时间: %s | 实还时间: %s | : %d\n",
+		printf("应还时间: %s | 实还时间: %s | 业务标记(0未归还,1正常归还,2逾期且已处理)%d\n",
 			head->ShouldBackTime, head->TrueBackTime, head->flag);
 		head = head->next;
 		printf("\n");

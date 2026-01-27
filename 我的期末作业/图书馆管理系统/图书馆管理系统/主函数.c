@@ -4,6 +4,7 @@ record* RecordHead = NULL;
 account* AccountHead = NULL;
 int main()
 {
+	ShowWelcomeScreen();
 	printf("\t\t\t\t\t\t文件读取中\n");
 	BookHead = GetBookInformation();
 	RecordHead = GetRecord();
@@ -13,7 +14,7 @@ int main()
 
 START:
 
-	printf("\t\t\t\t\t\thello world\n");
+	printf("\t\t\t\t\t你好，欢迎来到图书管理系统!\n");
 	printf("请输入数字对应您要进行的操作:\n1:登录\n2:注册新的账户\n");
 	char choice[100];
 	int power;
@@ -28,6 +29,8 @@ START:
 			printf("鬼啊，叉出去!\n");
 			return;
 		}
+		Sleep(1000);
+		system("cls");
 	}
 	else
 	{
@@ -37,18 +40,19 @@ START:
 			CreateNewAccount();
 		else
 			CreateNewMainAccount();
+		Sleep(1000);
 		system("cls");
 		goto START;
 	}
 
-	//管理员操作板块
+	                                             //管理员操作板块
 
 	if (power == 2)
 	{
 
 	ADACCOUNTCONTROL:
 
-		printf("请选择您想执行的操作:\n1:书入库\n2:查询读者个人信息\n3:获取借书表信息\n4:处理逾期借书记录\n5:查询图书信息\n6:修改(删除)图书信息");
+		printf("请选择您想执行的操作:\n1:书入库\n2:查询读者个人信息\n3:获取借书表信息\n4:处理逾期借书记录\n5:查询图书信息\n6:修改(删除)图书信息\n");
 		scanf("%s", choice);
 		if (!strcmp(choice,"1"))
 		{
@@ -58,6 +62,8 @@ START:
 			AddBook();
 			printf("按1继续添加，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto ADD;
@@ -77,9 +83,12 @@ START:
 		FINDACCOUNT:
 			;
 			account* AccountFind=FindAccount(power, sir);
+			printf("你好");
 			ShowAccount(AccountFind);
 			printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto FINDACCOUNT;
@@ -98,10 +107,21 @@ START:
 
 		FINDRECORD:
 			;
-			record* RecordFind=FindRecord(power,sir);
-			ShowRecord(RecordFind);
+			printf("按1查询全部，按其他按条件查询:\n");
+			scanf("%s", choice);
+			if (!strcmp(choice,"1"))
+			{
+				ShowRecord(RecordHead);
+			}
+			else
+			{
+				record* RecordFind = FindRecord(power, sir);
+				ShowRecord(RecordFind);
+			}
 			printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto FINDRECORD;
@@ -120,6 +140,8 @@ START:
 			Punish();
 			printf("按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "2"))
 			{
 				goto ADACCOUNTCONTROL;
@@ -131,6 +153,7 @@ START:
 		}
 		else if (!strcmp(choice, "5"))
 		{
+
 		ADFINDBOOK:
 			;
 			printf("按1浏览图书库，按其他则按照条件查询图书:\n");
@@ -146,6 +169,8 @@ START:
 			}
 			printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto ADFINDBOOK;
@@ -164,7 +189,7 @@ START:
 			ChangeBook();
 		}
 	}
-	//读者操作模块
+	                                       //读者操作模块
 
 	else
 	{
@@ -191,6 +216,8 @@ START:
 			}
 			printf("按1继续查询，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto FINDBOOK;
@@ -212,6 +239,8 @@ START:
 			BorrowBook(sir);
 			printf("按1继续借书，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto BORROW;
@@ -233,6 +262,8 @@ START:
 			BackBook(sir);
 			printf("按1继续还书，按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "1"))
 			{
 				goto BACK;
@@ -260,6 +291,8 @@ START:
 
 			printf("按2回到选择操作界面，按3回到登录注册界面，按其他退出系统\n");
 			scanf("%s", choice);
+			Sleep(1000);
+			system("cls");
 			if (!strcmp(choice, "2"))
 			{
 				goto ACCOUNTCONTROL;

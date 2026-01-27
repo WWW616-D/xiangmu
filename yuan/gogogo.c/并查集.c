@@ -95,7 +95,7 @@
 //}
 int parent[MAX_N];
 int rank[MAX_N];
-
+//可以考虑负数代表根，绝对值代表大小来节省一次内存开销。
 void init(int n) {
     for (int i = 1; i <= n; i++) {
         parent[i] = i;

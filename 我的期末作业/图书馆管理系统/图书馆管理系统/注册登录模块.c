@@ -1,4 +1,4 @@
-#include"library.h"
+ï»¿#include"library.h"
 const char Xtable[] = "0123456789ABCDEF";
 
 void ScanfPassword(char* pwd, int len)
@@ -33,36 +33,36 @@ int login(account** sir,MainAccount** leader)
 
 start:
 	CleanStdin();
-	printf("ÄãµÄÉí·İÊÇ:\n1:¶ÁÕß\n2:¹ÜÀíÔ±\n");
+	printf("ä½ çš„èº«ä»½æ˜¯:\n1:è¯»è€…\n2:ç®¡ç†å‘˜\n");
 	int choice;
 	
 	scanf("%d", &choice);
 	FILE* file;
 	if (choice == 1)
 	{
-		file = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\accounts.txt", "r");
+		file = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\accounts.txt", "r");
 	}
 	else if (choice == 2)
 	{
-		file = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\adAccounts.txt", "r");
+		file = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\adAccounts.txt", "r");
 	}
 	else
 	{
-		printf("Éí·İÑ¡ÔñÎŞĞ§£¬ÇëÖØĞÂÑ¡Ôñ:\n");
+		printf("èº«ä»½é€‰æ‹©æ— æ•ˆï¼Œè¯·é‡æ–°é€‰æ‹©:\n");
 		goto start;
 	}
 	if (choice == 1)
 	{
-		account* p = GetAccounts(file);
+		account* p = AccountHead;
 		if (p == NULL)
 			printf("111");
-		AccountHead = p;
 		char name[40];
 		char password[40];
 	a:
-		printf("ÇëÊäÈëÄãµÄÓÃ»§Ãû;\n");
+		p = AccountHead;
+		printf("è¯·è¾“å…¥ä½ çš„ç”¨æˆ·å;\n");
 		scanf_s("%s", name, 40);
-		printf("ÇëÊäÈëÄãµÄÃÜÂë;\n");
+		printf("è¯·è¾“å…¥ä½ çš„å¯†ç ;\n");
 		ScanfPassword(password, sizeof(password));
 		while (p != NULL)
 		{
@@ -75,13 +75,13 @@ start:
 		if (p == NULL)
 		if (p == NULL || strcmp(p->password, password) != 0)
 		{
-			printf("ÓÃ»§Ãû»òÃÜÂë´íÎó!ÇëÖØĞÂÊäÈë!\n");
+			printf("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!è¯·é‡æ–°è¾“å…¥!\n");
 			count++;
 			if (count == 5)
 			{
 				return 3;
 			}
-			printf("Äã»¹ÓĞ%d´ÎÊäÈë»ú»á\n", 5 - count);
+			printf("ä½ è¿˜æœ‰%dæ¬¡è¾“å…¥æœºä¼š\n", 5 - count);
 			goto a;
 		}
 		printf("\t\t\t\thello! %s\n", name);
@@ -96,9 +96,10 @@ start:
 		char name[40];
 		char password[40];
 	b:
-		printf("ÇëÊäÈëÄãµÄÓÃ»§Ãû;\n");
+		p = head;
+		printf("è¯·è¾“å…¥ä½ çš„ç”¨æˆ·å;\n");
 		scanf_s("%s", name, 40);
-		printf("ÇëÊäÈëÄãµÄÃÜÂë;\n");
+		printf("è¯·è¾“å…¥ä½ çš„å¯†ç ;\n");
 		ScanfPassword(password, sizeof(password));
 		while (p != NULL)
 		{
@@ -110,13 +111,13 @@ start:
 		}
 		if (p == NULL || strcmp(p->password, password) != 0)
 		{
-			printf("ÓÃ»§Ãû»òÃÜÂë´íÎó!ÇëÖØĞÂÊäÈë!\n");
+			printf("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!è¯·é‡æ–°è¾“å…¥!\n");
 			count++;
 			if (count == 5)
 			{
 				return 3;
 			}
-			printf("Äã»¹ÓĞ%d´ÎÊäÈë»ú»á\n", 5 - count);
+			printf("ä½ è¿˜æœ‰%dæ¬¡è¾“å…¥æœºä¼š\n", 5 - count);
 			goto b;
 		}
 		printf("\t\t\t\thello! %s\n", name);
@@ -193,10 +194,10 @@ void CreateNewMainAccount()
 	FILE* getfile = NULL;
 	FILE* file = NULL;
 	FILE* write_file;
-	getfile = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\¼¤»îÂë.txt", "r");
-	file = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\adAccounts.txt", "r");
+	getfile = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\æ¿€æ´»ç .txt", "r");
+	file = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\adAccounts.txt", "r");
 
-	//¼¤»îÂëÄ£¿é
+	//æ¿€æ´»ç æ¨¡å—
 
 	char rightcode[16];
 	fscanf(getfile, "%15s", rightcode);
@@ -205,32 +206,31 @@ void CreateNewMainAccount()
 	for (int i = 0; i < 15; i++)
 	{
 		rightcode[i] = 'A' + (rightcode[i] - 'A' + i + 1) % 26;
-		printf("%c", rightcode[i]);
 	}
 	char code[16];
 	b:
-	printf("ÇëÊäÈë¼¤»îÂë:\n"); 
+	printf("è¯·è¾“å…¥æ¿€æ´»ç :\n"); 
 	fflush(stdin);
 	scanf_s("%s", code, 16);
 	if (strcmp(code, rightcode) == 0)
 	{
-		printf("¼¤»îÂëÕıÈ·:");
+		printf("æ¿€æ´»ç æ­£ç¡®:");
 	}
 	else
 	{
 		goto b;
 	}
-	getfile = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\¼¤»îÂë.txt", "w");
-	write_file = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\adAccounts.txt", "a");
+	getfile = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\æ¿€æ´»ç .txt", "w");
+	write_file = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\adAccounts.txt", "a");
 	fprintf(getfile, "%s", rightcode);
 	fclose(getfile);
 
-	//ÕËºÅÃÜÂëÊäÈëÄ£¿é
+	//è´¦å·å¯†ç è¾“å…¥æ¨¡å—
 
 	a:
-	printf("ÇëÊäÈëÄãµÄÓÃ»§Ãû;(8µ½16¸ö×Ö·û)\n");
+	printf("è¯·è¾“å…¥ä½ çš„ç”¨æˆ·å;(8åˆ°16ä¸ªå­—ç¬¦)\n");
 	scanf_s("%s", new_mainaccount->name, sizeof(new_mainaccount->name));
-	printf("ÇëÊäÈëÄãµÄÃÜÂë;(8µ½16¸ö×Ö·û)\n");
+	printf("è¯·è¾“å…¥ä½ çš„å¯†ç ;(8åˆ°16ä¸ªå­—ç¬¦)\n");
 	ScanfPassword(new_mainaccount->password, sizeof(new_mainaccount->password));
 	MainAccount* p = GetMainAccounts(file);
 	MainAccount* head = p;
@@ -238,7 +238,7 @@ void CreateNewMainAccount()
 	{
 		if (strcmp(p->name, new_mainaccount->name) == 0)
 		{
-			printf("ÄúµÄÓÃ»§ÃûÓëÒÑ´æÔÚÓÃ»§ÃûÓĞ³åÍ»  ÇëÖØĞÂÊäÈë\n");
+			printf("æ‚¨çš„ç”¨æˆ·åä¸å·²å­˜åœ¨ç”¨æˆ·åæœ‰å†²çª  è¯·é‡æ–°è¾“å…¥\n");
 			goto a;
 		}
 		p = p->next;
@@ -251,36 +251,37 @@ void CreateNewMainAccount()
 	}
 	if (strlen(new_mainaccount->password) > 16 || strlen(new_mainaccount->name) > 16 || strlen(new_mainaccount->password) < 8 || strlen(new_mainaccount->name) < 8)
 	{
-		printf("ÄúµÄÓÃ»§Ãû»òÃÜÂë²»·ûºÏÏŞ¶¨³¤¶È  ÇëÖØĞÂÊäÈë\n");
+		printf("æ‚¨çš„ç”¨æˆ·åæˆ–å¯†ç ä¸ç¬¦åˆé™å®šé•¿åº¦  è¯·é‡æ–°è¾“å…¥\n");
 		goto a;
 	}
 
-	//ÃÜÂë¼ÓÃÜÓëÊı¾İĞ´ÈëÄ£¿é
+	//å¯†ç åŠ å¯†ä¸æ•°æ®å†™å…¥æ¨¡å—
 
 	char password[80];
 	change(new_mainaccount->password, password);
+	printf("%s", new_mainaccount->password);
 	fprintf(write_file, "%s,%s\n", new_mainaccount->name, password);
 }
 
 void CreateNewAccount()
 {
 
-	//³õÊ¼»¯ÕËºÅ
+	//åˆå§‹åŒ–è´¦å·
 
 	account* new_account = (account*)malloc(sizeof(account));
 	if (new_account == NULL)
 	{
-		printf("ĞÂÕË»§´´½¨Ê§°Ü,ÇëÖØÊÔ\n");
+		printf("æ–°è´¦æˆ·åˆ›å»ºå¤±è´¥,è¯·é‡è¯•\n");
 		return;
 	}
 
 	int choice;
-	printf("ÊÇ·ñÓĞ¼¤»îÂë?(¼¤»îÌØÈ¨ÓÃ»§)\nÊäÈë1¿ªÊ¼½øÈëÊäÈë¼¤»îÂë½çÃæ£¬ÊäÈëÆäËû¼ÌĞøÕı³£×¢²á\n");
+	printf("æ˜¯å¦æœ‰æ¿€æ´»ç ?(æ¿€æ´»ç‰¹æƒç”¨æˆ·)\nè¾“å…¥1å¼€å§‹è¿›å…¥è¾“å…¥æ¿€æ´»ç ç•Œé¢ï¼Œè¾“å…¥å…¶ä»–ç»§ç»­æ­£å¸¸æ³¨å†Œ\n");
 	scanf("%d", &choice);
 	int flag = 0;
 	if (choice==1)
 	{
-		FILE* getfile= fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\account¼¤»îÂë.txt", "r");
+		FILE* getfile= fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\accountæ¿€æ´»ç .txt", "r");
 		char rightcode[16];
 		fscanf(getfile, "%15s", rightcode);
 		fclose(getfile);
@@ -288,22 +289,21 @@ void CreateNewAccount()
 		for (int i = 0; i < 15; i++)
 		{
 			rightcode[i] = 'A' + (rightcode[i] - 'A' + i + 1) % 26;
-			printf("%c", rightcode[i]);
 		}
 		char code[16];
 	b:
-		printf("ÇëÊäÈë¼¤»îÂë:\n");
+		printf("è¯·è¾“å…¥æ¿€æ´»ç :\n");
 		CleanStdin();
 		scanf_s("%s", code, 16);
 		if (strcmp(code, rightcode) == 0)
 		{
-			printf("¼¤»îÂëÕıÈ·:");
+			printf("æ¿€æ´»ç æ­£ç¡®:");
 		}
 		else
 		{
 			goto b;
 		}
-		getfile = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\account¼¤»îÂë.txt", "w");
+		getfile = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\accountæ¿€æ´»ç .txt", "w");
 		flag = 1;
 		fprintf(getfile, "%s", rightcode);
 		fclose(getfile);
@@ -327,48 +327,64 @@ void CreateNewAccount()
 		new_account->day = 14;
 	}
 	FILE* file = NULL;
-	file = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\accounts.txt", "r");
+	file = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\accounts.txt", "r");
 	FILE* numfile = NULL;
-	numfile = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\id.txt", "r");
+	numfile = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\id.txt", "r");
 
 	fscanf(numfile, "%d", &new_account->id);
 	int nextid = new_account->id + 1;
 	fclose(numfile);
 
-	//ÕË»§×¢²á
+	//è´¦æˆ·æ³¨å†Œ
 
 a:
 	CleanStdin();
-	printf("ÇëÊäÈëÄãµÄÓÃ»§Ãû;(8µ½16¸ö×Ö·û)\n");
+	printf("è¯·è¾“å…¥ä½ çš„ç”¨æˆ·å;(8åˆ°16ä¸ªå­—ç¬¦)\n");
 	scanf_s("%s", new_account->name,sizeof(new_account->name));
-	printf("ÇëÊäÈëÄãµÄÃÜÂë;(8µ½16¸ö×Ö·û)\n");
+	printf("è¯·è¾“å…¥ä½ çš„å¯†ç ;(8åˆ°16ä¸ªå­—ç¬¦)\n");
 	ScanfPassword(new_account->password, sizeof(new_account->password));
-	printf("ÇëÔÙ´ÎÈ·ÈÏÄúµÄÃÜÂë:\n");
+	printf("è¯·å†æ¬¡ç¡®è®¤æ‚¨çš„å¯†ç :\n");
 	char PassWord[20];
 	ScanfPassword(PassWord, sizeof(PassWord));
 	if (strcmp(PassWord,new_account->password)!=0)
 	{
-		printf("ÄúÁ½´ÎÊäÈëµÄÃÜÂë²»Ò»ÖÂ£¬ÇëÔÙ´ÎÊäÈë!\n");
+		printf("æ‚¨ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸ä¸€è‡´ï¼Œè¯·å†æ¬¡è¾“å…¥!\n");
 		goto a;
 	}
+	
 	account* p = AccountHead;
 	account* head = p;
 	while (p!=NULL)
 	{
 		if (strcmp(p->name,new_account->name)==0)
 		{
-			printf("ÄúµÄÓÃ»§ÃûÓëÒÑ´æÔÚÓÃ»§ÃûÓĞ³åÍ»  ÇëÖØĞÂÊäÈë\n");
+			printf("æ‚¨çš„ç”¨æˆ·åä¸å·²å­˜åœ¨ç”¨æˆ·åæœ‰å†²çª  è¯·é‡æ–°è¾“å…¥\n");
 			goto a;
 		}
 		p = p->next;
 	}
 	if (strlen(new_account->password)>16||strlen(new_account->name) > 16||strlen(new_account->password) < 8 || strlen(new_account->name) < 8)
 	{
-		printf("ÄúµÄÓÃ»§Ãû»òÃÜÂë²»·ûºÏÏŞ¶¨³¤¶È  ÇëÖØĞÂÊäÈë\n");
+		printf("æ‚¨çš„ç”¨æˆ·åæˆ–å¯†ç ä¸ç¬¦åˆé™å®šé•¿åº¦  è¯·é‡æ–°è¾“å…¥\n");
 		goto a;
 	}
-	printf("»¶Ó­Äã%s\n", new_account->name);
-	//¼ÓÃÜÓëĞ´Èë
+
+iphone:
+
+	printf("è¯·è¾“å…¥æ‚¨çš„æ‰‹æœºå·,ä»¥ä¾¿æˆ‘ä»¬è”ç³»æ‚¨:\n");
+	scanf("%lld", &new_account->phone);
+	long long int temp = new_account->phone;
+	for (int i = 0; i < 10; i++)
+	{
+		temp = temp / 10;
+	}
+	if (temp != 1)
+	{
+		printf("æ‚¨è¾“å…¥çš„æ‰‹æœºå·è¿è§„,è¯·é‡æ–°è¾“å…¥:\n");
+		goto iphone;
+	}
+	printf("æ¬¢è¿ä½ %s\n", new_account->name);
+	//åŠ å¯†ä¸å†™å…¥
 	fclose(file);
 	FILE* write_file;
 	new_account->next = NULL;
@@ -382,23 +398,24 @@ a:
 		AccountHead = new_account;
 	}
 	StorageAccount();
-	numfile = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\id.txt", "w");
+	numfile = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\id.txt", "w");
 	fprintf(numfile, "%d", nextid);
 	fclose(numfile);
 }
 void StorageAccount()
 {
-	FILE* file = fopen("D:\\´úÂë\\ÎÒµÄÆÚÄ©×÷Òµ\\Í¼Êé¹İ¹ÜÀíÏµÍ³\\accounts.txt", "w");
+	FILE* file = fopen("D:\\ä»£ç \\æˆ‘çš„æœŸæœ«ä½œä¸š\\å›¾ä¹¦é¦†ç®¡ç†ç³»ç»Ÿ\\accounts.txt", "w");
 	char password[80];
 	account* head = AccountHead;
-	fprintf(file, "ÓÃ»§±àºÅ | ÓÃ»§Ãû | ÓÃ»§ÃÜÂë | ×î´ó½èÊéÊı | ÒÑ¾­½èÊéÊıÄ¿ | ³¬¶îÅâ¸¶(Ôª/Ìì) | Î¥¹æ´ÎÊı | ÊÇ·ñÓĞÌØÈ¨ | ¿É½èÌìÊı\n");
+	fprintf(file, "ç”¨æˆ·ç¼–å· | ç”¨æˆ·å | ç”¨æˆ·å¯†ç  | æœ€å¤§å€Ÿä¹¦æ•° | å·²ç»å€Ÿä¹¦æ•°ç›® | è¶…é¢èµ”ä»˜(å…ƒ/å¤©) | è¿è§„æ¬¡æ•° | æ˜¯å¦æœ‰ç‰¹æƒ | å¯å€Ÿå¤©æ•°\n");
 	while (head!=NULL)
 	{
 		memset(password, 0, sizeof(password));
 		change(head->password, password);
 		fprintf(file, "%d %s %s ", head->id, head->name, password);
 		fprintf(file, "%d %d ", head->maxbook, head->getbook);
-		fprintf(file, "%d %d %d %d\n", head->pay, head->punish, head->privilege, head->day);
+		fprintf(file, "%d %d %d %d", head->pay, head->punish, head->privilege, head->day);
+		fprintf(file, " %lld\n", head->phone + 886114514);
 		head = head->next;
 	}
 	fclose(file);
@@ -407,4 +424,69 @@ void CleanStdin()
 {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF);
+}
+// æ›´æ¸…æ™°çš„ç‰ˆæœ¬
+void ShowWelcomeScreen() {
+	system("cls");
+
+	int consoleWidth = 120;  // å‡è®¾æ§åˆ¶å°å®½åº¦ä¸º80å­—ç¬¦
+	int centerOffset = (consoleWidth - 56) / 2;  // 56æ˜¯LIBRARY ASCIIè‰ºæœ¯çš„å®½åº¦
+
+	printf("\n\n\n");
+
+	// LIBRARY ASCIIè‰ºæœ¯ï¼ˆå±…ä¸­å¯¹é½ï¼‰
+	for (int i = 0; i < centerOffset; i++) printf(" ");
+	printf("  â–ˆâ–ˆâ•—     â–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•—   â–ˆâ–ˆâ•—\n");
+	for (int i = 0; i < centerOffset; i++) printf(" ");
+	printf("  â–ˆâ–ˆâ•‘     â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â•šâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•”â•\n");
+	for (int i = 0; i < centerOffset; i++) printf(" ");
+	printf("  â–ˆâ–ˆâ•‘     â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â• â•šâ–ˆâ–ˆâ–ˆâ–ˆâ•”â• \n");
+	for (int i = 0; i < centerOffset; i++) printf(" ");
+	printf("  â–ˆâ–ˆâ•‘     â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—  â•šâ–ˆâ–ˆâ•”â•  \n");
+	for (int i = 0; i < centerOffset; i++) printf(" ");
+	printf("  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘   \n");
+	for (int i = 0; i < centerOffset; i++) printf(" ");
+	printf("  â•šâ•â•â•â•â•â•â•â•šâ•â•â•šâ•â•â•â•â•â• â•šâ•â•  â•šâ•â•â•šâ•â•  â•šâ•â•â•šâ•â•  â•šâ•â•   â•šâ•â•   \n");
+
+	printf("\n");
+
+	// åˆ†éš”çº¿ï¼ˆå±…ä¸­å¯¹é½ï¼‰
+	for (int i = 0; i < centerOffset-7; i++) printf(" ");
+	printf("  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n");
+
+	printf("\n");
+
+	// æ ‡é¢˜ï¼ˆå±…ä¸­å¯¹é½ï¼‰
+	for (int i = 0; i < centerOffset + 15; i++) printf(" ");
+	printf("å›¾ä¹¦å€Ÿé˜…ç®¡ç†ç³»ç»Ÿ\n");
+
+	for (int i = 0; i < centerOffset + 12; i++) printf(" ");
+	printf("======================\n\n");
+
+	// åŠŸèƒ½æ¡†ï¼ˆå±…ä¸­å¯¹é½ï¼‰
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”‚                 ä¸»è¦åŠŸèƒ½                        â”‚\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”‚    è¯»è€…æ³¨å†Œä¸ç™»å½•                               â”‚\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”‚    å›¾ä¹¦æŸ¥è¯¢ã€å€Ÿé˜…ã€å½’è¿˜                         â”‚\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”‚    ç®¡ç†å‘˜å›¾ä¹¦ç®¡ç†                               â”‚\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”‚    å€Ÿé˜…è®°å½•æŸ¥è¯¢ä¸ç»Ÿè®¡                           â”‚\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â”‚    é€¾æœŸæé†’ä¸å¤„ç½šç³»ç»Ÿ                           â”‚\n");
+	for (int i = 0; i < centerOffset-5; i++) printf(" ");
+	printf("      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜\n\n");
+
+	// æç¤ºæ–‡å­—ï¼ˆå±…ä¸­å¯¹é½ï¼‰
+	for (int i = 0; i < centerOffset + 13; i++) printf(" ");
+	printf("æŒ‰ä»»æ„é”®è¿›å…¥ç³»ç»Ÿ...");
+
+	_getch();
+	system("cls");
 }

@@ -122,7 +122,7 @@ int findmaxnum(hashmap* map,char* word)
 }
 void WordsCountAndChange()
 {
-	printf("现在显示该文章的词频统计结果:\n");
+	printf("现在显示该文章的词频统计结果并存盘:\n");
 	FILE* file = fopen("D:\\代码\\我的期末作业\\文章.txt", "r");
 	if (file == NULL)
 		return;
@@ -162,7 +162,7 @@ void WordsCountAndChange()
 	FILE* filecount = fopen("D:\\代码\\我的期末作业\\词汇计数.txt","w");
 	for (int i = 0; i < count; i++)
 	{
-		printf("%s\t,%d\t\n", all[i].word, all[i].count);
+		printf("%s的词频为%d\n", all[i].word, all[i].count);
 		fprintf(filecount, "%s %d\n", all[i].word, all[i].count);
 	}
 	fclose(filecount);
