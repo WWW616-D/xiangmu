@@ -139,7 +139,7 @@ int main_6543()
 //    // 6. 判断是否能完成所有课程
 //    return count == numCourses;
 //}
-// DFS拓扑排序（并判断是否为环）
+// DFS拓扑排序（并判断是否为环）(建议添加入度数组配合使用)
 //int* topologicalSortDFS(int numCourses, int** prerequisites, int prerequisitesSize, int* returnSize) {
 //    // ... 构建图
 //
