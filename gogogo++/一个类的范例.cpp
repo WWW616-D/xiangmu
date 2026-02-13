@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include <string>
+﻿#include "gogogo++.h"
 using namespace std;
 
 // ============ 1. 最简单的类 ============
@@ -148,9 +147,21 @@ private:
         cout << "攻击力+" << 5 << "，防御力+" << 3 << endl;
     }
 };
-
+class king:public GameCharacter
+{
+public:
+    king():GameCharacter(),money(100)
+    {
+        cout << "一个王降临了" << endl;
+    }
+    int getLevel() const {
+        return 100;
+    }
+private:
+    int money;
+};
 // ============ 8. 使用类的示例 ============
-int main() {
+int main_111() {
     cout << "=== 游戏开始 ===" << endl;
 
     // 创建角色（调用构造函数）
@@ -184,6 +195,7 @@ int main() {
     monster.showStatus();
 
     // 使用Getter
+
     cout << "\n英雄信息：" << endl;
     cout << "名字: " << hero.getName() << endl;
     cout << "等级: " << hero.getLevel() << endl;

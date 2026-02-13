@@ -1,7 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <climits>
+#include "gogogo++.h"
 using namespace std;
 
 // 邻接表表示法的边
