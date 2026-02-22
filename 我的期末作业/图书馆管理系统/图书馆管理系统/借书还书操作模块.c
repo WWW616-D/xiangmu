@@ -362,7 +362,7 @@ void BackBook(account* sir)
 			int day = (OutTime - currenttime) / (24 * 60 * 60) - sir->day + 1;
 			printf("本次逾期%d天,你需要缴纳罚金%d元\n", day, day* sir->pay);
 			printf("您当前的罚款单价为%d,当前的借书额度为%d\n", sir->pay, sir->maxbook);
-			printf("本次逾期已在先前由管理员登记处罚，请关注您的数据变动，处理罚单,日后主动归还图书!\n");
+			printf("本次逾期已在先前由管理00员登记处罚，请关注您的数据变动，处理罚单,日后主动归还图书!\n");
 		}
 	}
 	int bookid = temp->id;

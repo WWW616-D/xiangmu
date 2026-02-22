@@ -135,7 +135,7 @@ private:
     }
 };
 
-int main() {
+int main_456() {
     // ========== ÄãµÄ×ÖµäÊý¾Ý ==========
     vector<string> dictionary = {
         "cat",     // K1

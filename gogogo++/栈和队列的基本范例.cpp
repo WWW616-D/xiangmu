@@ -218,7 +218,7 @@ bool checkParentheses(const string& expr) {
     return s.empty();
 }
 
-int main_456() {
+int main_6() {
     cout << "=== 栈和队列综合示例 ===\n" << endl;
 
     // 基础示例

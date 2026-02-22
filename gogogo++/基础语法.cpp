@@ -40,6 +40,9 @@ const char* max(const char* a,const char* b)
 }
 int hello = 50;//全局变量，其他文件使用extern访问
 static int world = 100;//只在本文件可见 //默认0初始化
+constexpr int one = 100;//一个常量表达式  如果是指针则为常量指针（同顶层const）
+auto xx = 100;
+decltype(xx)yy = 50;
 /*int main_354()
 {
 	//不太一样的输入输出
@@ -85,7 +88,7 @@ static int world = 100;//只在本文件可见 //默认0初始化
 	string s2("World");       // 直接初始化
 	string s3(5, 'A');        // "AAAAA"
 	string str = s1;			// 拷贝构造
-	str += str;
+	str += str;   //不可将两个字面值直接相加
 	//str.assign("ABCDEFGHIJKLMN", 5);  // 只取前5个字符
 	//str.assign(str, 2, 4); // 从2开始取4个字符
 	string str1 = str.substr(0, 5); //取字串
@@ -119,11 +122,14 @@ static int world = 100;//只在本文件可见 //默认0初始化
 	std::vector<int> v3(5, 10);          // 5个元素，每个都是10
 	std::vector<int> v4 = { 1, 2, 3, 4, 5 }; // 初始化列表
 	std::vector<int> v5(v4);             // 拷贝构造
+	std::vector<int> vec = {10, 20, 30};
+	// auto 会自动推导为 std::vector<int>::iterator
+	auto it1 = vec.begin();
 
 	// 指定容量（优化性能）
 	std::vector<int> v6;
 	v6.reserve(100);  // 预分配100个元素的内存
-
+	v6.resize(1000);  // 分配内存并初始化
 	// 1. 添加元素
 	vec.push_back(4);       // 末尾添加
 	vec.push_back(5);
